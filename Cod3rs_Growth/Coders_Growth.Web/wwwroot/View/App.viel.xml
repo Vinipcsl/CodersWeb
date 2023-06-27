@@ -1,0 +1,19 @@
+<mvc:View
+controllerName="sap.ui.demo.celular.controller.App"
+xmlns:mvc="sap.ui.core.mvc"
+displayBlock="true"
+xmlns="sap.m"
+>
+    <Shellclass="myAppDemoWT">
+        <App >
+            <pages>
+                <Page title="{i18n>Titulo}">
+                    <content>
+                    <Table noDataText="Coloca a tabela aqui e o trem em outro lugar" id="TabelaCelular">
+                    <items>
+                    </content>
+                </Page>
+            </pages>
+        </App>
+    </Shell>
+</mvc:View>

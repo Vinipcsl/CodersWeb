@@ -1,0 +1,54 @@
+<mvc:View
+   controllerName="sap.ui.demo.viniCelulares.controller.ListaDecelulares" 
+   height="100%"
+   xmlns:mvc="sap.ui.core.mvc"
+   xmlns:core="sap.ui.core"
+   xmlns="sap.m">
+ <Page showHeader="true" enableScrolling="true" showNavButton="false" title="Loja De Celular" titleAlignment="Center">
+        <content>
+            <Table id="celularesDaLista" items="{path: 'celulares>/'}">               
+                <headerToolbar>
+                    <OverflowToolbar  id="otbSubheader">
+                        <Title text="{i18n>TituloDaLista}"/>
+                        <ToolbarSpacer/>
+                        <OverflowToolbarButton press="aoClicarAdicionar" tooltip="Adicionar" text="Add" icon="sap-icon://add-equipment" type="Accept" />
+                        <SearchField search="aoClicarProcurarPeca">
+                            <layoutData><OverflowToolbarLayoutData maxWidth="300px" shrinkable="true" priority="NeverOverflow"/></layoutData>
+                        </SearchField>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <columns>
+                    <Column width="12em"><Text text="{i18n>ColunaMarca}" /></Column>
+                    <Column width="12em"><Text text="{i18n>ColunaModelo}" /></Column>
+                    <Column width="12em"><Text text="{i18n>ColunaCor}" /></Column>
+                    <Column width="12em"><Text text="{i18n>ColunaMemoria}" /></Column>
+                    <Column width="12em"><Text text="{i18n>ColunaAnoFabricado}" /></Column>
+					<Column width="12em"><Text text="{i18n>ColunaEstoque}" /></Column>
+                </columns>
+                <items>
+                    <ColumnListItem type="Navigation" press="aoClicarNaLinha">
+                        <cells>
+                            <Text text="{celulares>marca}" />
+                            <Text text="{celulares>modelo}" />
+                            <Text text="{celulares>cor}" />
+							<Text text="{celulares>memoria}" />
+							<Text text="{celulares>estoque}" />
+                            <Text
+                                text="{
+                                    path: 'celulares>dataDeFabricacao',
+                                    type: 'sap.ui.model.type.Date',
+                                    formatOptions: {
+                                    style: 'short',
+                                        source: {
+                                            pattern: 'yyyy-MM-ddTHH:mm:ss.mmm'
+                                        }
+                                    }
+                                }" />
+                            <Text text="{celulares>estoque}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+    </Page>
+</mvc:View>

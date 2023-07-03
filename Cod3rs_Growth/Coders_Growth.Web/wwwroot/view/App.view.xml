@@ -1,0 +1,11 @@
+<mvc:View
+	controllerName="ViniCelulares.controller.App"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	displayBlock="true">
+	<Shell>
+		<Page title="{i18n>TituloAutopecas}">
+			<App class="myAppDemoWT" id="app"/>
+		</Page>
+	</Shell>
+</mvc:View>

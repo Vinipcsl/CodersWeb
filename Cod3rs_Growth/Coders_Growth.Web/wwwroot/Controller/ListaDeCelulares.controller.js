@@ -2,7 +2,10 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/model/json/JSONModel",
     "sap/m/MessageToast",
-], function(Controller, JSONModel,MessageToast) {
+	"sap/ui/model/Filter",
+	"sap/ui/model/FilterOperator"
+	
+], function(Controller, JSONModel,MessageToast, Filter, FilterOperator) {
 	"use strict";
 
 	const uri="https://localhost:59606/api/celular/";
@@ -25,20 +28,16 @@ sap.ui.define([
 		 onCadastro : function(){
 			MessageToast.show("Bora cadastrar um cerura");
 		 },
-		 onFiltro : function (oEvent) {
-			let tela = this.getView();
-			   var sQuery = oEvent.getParameter("query");
-			fetch(`${uri}?marca=${sQuery}`)
-			   .then(function(response){
-				  return response.json();
-			   })
-			   .then(function (data){
-				  tela.setModel(new JSONModel(data),"celulares");
-			   })
-			   .catch(function (error){
-				  console.error(error);
-			   }); 
-			   
-		   }
+		 aoClicarProcurarCelular : function(oEvent){
+			var sQuery = oEvent.getParameter("query"),
+				aFilter = [];
+				if (sQuery)
+				{
+					aFilter.push(new Filter("marca", FilterOperator.Contains, sQuery));
+				}
+				var oTable = this.byId("celularesDaLista");
+				var oBinding = oTable.getBinding("items");
+				oBinding.filter(aFilter);			
+		 }
 	});
 });

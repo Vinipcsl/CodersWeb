@@ -25,9 +25,7 @@ sap.ui.define([
 				  console.error(error);
 			   });       
 		 },
-		 onCadastro : function(){
-			MessageToast.show("Bora cadastrar um cerura");
-		 },
+		 
 		 aoClicarProcurarCelular : function(oEvent){
 			var sQuery = oEvent.getParameter("query"),
 				aFilter = [];

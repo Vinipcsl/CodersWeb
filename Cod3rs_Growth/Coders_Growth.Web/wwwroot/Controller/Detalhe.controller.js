@@ -29,7 +29,7 @@ sap.ui.define([
                   return response.json();
                })
                .then(function (data){
-                  tela.setModel(new JSONModel(data),"celulares")
+                  tela.setModel(new JSONModel(data),"celular")
                })
                .catch(function (error){
                   console.error(error);

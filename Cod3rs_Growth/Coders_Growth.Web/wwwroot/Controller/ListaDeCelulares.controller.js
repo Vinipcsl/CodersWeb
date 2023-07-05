@@ -36,6 +36,12 @@ sap.ui.define([
 				var oTable = this.byId("celularesDaLista");
 				var oBinding = oTable.getBinding("items");
 				oBinding.filter(aFilter);			
-		 }
+		 },
+		 aoClicarNaLinha: function (evento) {
+			let id = evento.getSource().getBindingContext("celulares").getObject().id
+   
+			let oRouter = this.getOwnerComponent().getRouter()
+			oRouter.navTo("detalhe", {id})
+		  },
 	});
 });

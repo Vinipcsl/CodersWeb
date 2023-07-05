@@ -57,12 +57,21 @@
 					"pattern": "",
 					"name": "listaDeCelulares",
 					"target": "listaDeCelulares"
+				},
+				{
+					"pattern": "Detalhe/{id}",
+					"name": "detalhe",
+					"target": "detalhe"
 				}
 			],
 			"targets": {
 				"listaDeCelulares": {
 					"id": "celularesDaLista",
 					"name": "ListaDeCelulares"
+				},				
+				"detalhe":{
+					"id": "detalhe",
+					"name": "Detalhe"
 				}
 			}
 		}

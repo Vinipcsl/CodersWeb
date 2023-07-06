@@ -8,7 +8,8 @@ sap.ui.define([
 	const lista="listaDeCelulares";
 	
 
-	return Controller.extend(rotaDetalhe, {
+	return Controller.extend(rotaDetalhe, {	
+		
 		
 		onInit: function () {
 			const detalhe="detalhe";
@@ -18,7 +19,8 @@ sap.ui.define([
 		},
 
 		_aoCoincidirRota: function (oEvent) {
-            var Id = oEvent.getParameter("arguments").id
+			const argumento= "arguments";
+            var Id = oEvent.getParameter(argumento).id
             this._detalhes(Id);
 		},
 

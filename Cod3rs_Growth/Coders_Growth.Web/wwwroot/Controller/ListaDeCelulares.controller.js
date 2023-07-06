@@ -14,6 +14,7 @@ sap.ui.define([
 	const celularesDaLista= "celularesDaLista";
 	const items= "items";
 	const filtoMarca="marca";
+	
 	return Controller.extend(caminhoLista, {
 
 		onInit:function() {
@@ -31,7 +32,8 @@ sap.ui.define([
 		 },
 		 
 		 aoClicarProcurarCelular : function(oEvent){
-			var sQuery = oEvent.getParameter("query"),
+			const query = "query";
+			var sQuery = oEvent.getParameter(query),
 				aFilter = [];
 				if (sQuery)
 				{
@@ -42,10 +44,11 @@ sap.ui.define([
 				oBinding.filter(aFilter);			
 		 },
 		 aoClicarNaLinha: function (evento) {
+			const detalhe= "detalhe";
 			let id = evento.getSource().getBindingContext(celulares).getObject().id
    
 			let oRouter = this.getOwnerComponent().getRouter()
-			oRouter.navTo("detalhe", {id})
+			oRouter.navTo(detalhe, {id})
 		  },
 	});
 });

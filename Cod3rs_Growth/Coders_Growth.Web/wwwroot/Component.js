@@ -3,7 +3,9 @@ sap.ui.define([
 	"sap/ui/Device"
 ], function (UIComponent,Device) {
 	"use strict";
-	return UIComponent.extend("sap.ui.demo.viniCelulares.Component", {
+	const rotaComponet= "sap.ui.demo.viniCelulares.Component";
+	
+	return UIComponent.extend(rotaComponet, {
 		
 		metadata: {
 			interfaces: ["sap.ui.core.IAsyncContentCreation"],

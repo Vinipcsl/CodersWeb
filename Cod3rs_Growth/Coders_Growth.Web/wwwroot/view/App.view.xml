@@ -1,0 +1,11 @@
+<mvc:View
+	controllerName="sap.ui.demo.viniCelulares.controller.App"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	displayBlock="true">
+	<Shell>
+		<Page title="{i18n>NomeLoja}">
+			<App class="myAppDemoWT" id="app"/>
+		</Page>
+	</Shell>
+</mvc:View>

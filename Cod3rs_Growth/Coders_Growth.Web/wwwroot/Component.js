@@ -3,8 +3,8 @@ sap.ui.define([
 	"sap/ui/Device"
 ], function (UIComponent,Device) {
 	"use strict";
-	const rotaComponet= "sap.ui.demo.viniCelulares.Component";
-	
+	const caminhoComponet= "sap.ui.demo.viniCelulares.Component";
+
 	return UIComponent.extend(rotaComponet, {
 		
 		metadata: {

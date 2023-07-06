@@ -17,9 +17,9 @@ sap.ui.define([
             this._detalhes(Id);
 		},
 
-		aoClicarEmVoltar: function () {
+		aoClicarEmVoltar: function () {			
 			let oRouter = this.getOwnerComponent().getRouter();
-            oRouter.navTo("listaDeCelular", {}, true);
+            oRouter.navTo("listaDeCelulares", {}, true);
 		},
 
 		_detalhes : function (id){

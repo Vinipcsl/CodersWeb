@@ -1,0 +1,56 @@
+<mvc:View
+ controllerName="sap.ui.demo.viniCelulares.controller.Detalhe" 
+   xmlns:mvc="sap.ui.core.mvc"
+   xmlns:core="sap.ui.core"
+   xmlns="sap.m"
+     xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form">
+
+  <Page title="{i18n>TituloDeDetalhe}" showNavButton="true" navButtonPress="aoClicarEmVoltar" titleAlignment="Center">
+        <headerContent>
+            <Button text="{i18n>BotaoEditar}" icon="sap-icon://edit" width="auto" type="Accept"/>
+            <Button text="{i18n>BotaoRemover}" icon="sap-icon://delete" width="auto" type="Reject"/>
+        </headerContent>
+        <VBox class="sapUiSmallMargin">
+            <f:SimpleForm id="SimpleFormDisplay354"
+                editable="false"
+                layout="ResponsiveGridLayout"
+                title="Celulares"
+                labelSpanXL="3"
+                labelSpanL="3"
+                labelSpanM="3"
+                labelSpanS="12"
+                adjustLabelSpan="false"
+                emptySpanXL="4"
+                emptySpanL="4"
+                emptySpanM="4"
+                emptySpanS="0"
+                columnsXL="1"
+                columnsL="1"
+                columnsM="1"
+                singleContainerFullSize="false">
+                <f:content>
+                    <Label text="{i18n>CampoMarca}" />
+                    <Text text="{celular>/marca}" />
+                    <Label text="{i18n>CampoModelo}" />
+                    <Text text="{celular>/modelo}" />
+                    <Label text="{i18n>CampoCor}" />
+                    <Text text="{celular>/cor}" />
+                    <Label text="{i18n>CampoMemoria}" />
+                    <Text text="{celular>/memoria}" />
+                    <Label text="{i18n>CampoAnoFabricacao}" />
+                    <Text text="{
+                        path: 'celular>/anoFabricacao',
+                        type: 'sap.ui.model.type.Date',
+                        formatOptions: {
+                        style: 'short',
+                            source: {
+                                pattern: 'yyyy-MM-ddTHH:mm:ss.mmm'
+                            }
+                        }
+                    }" />                    
+                </f:content>
+            </f:SimpleForm>
+        </VBox>
+    </Page>
+</mvc:View>

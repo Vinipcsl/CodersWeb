@@ -50,5 +50,11 @@ sap.ui.define([
 			let oRouter = this.getOwnerComponent().getRouter()
 			oRouter.navTo(detalhe, {id})
 		  },
+		  aoClicarAdicionar: function () {
+			const adicionar= "adicionarCelular";
+			let oRouter = this.getOwnerComponent().getRouter()
+			oRouter.navTo("cadastroDeCelular")
+			
+		  }
 	});
 });

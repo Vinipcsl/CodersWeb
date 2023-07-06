@@ -1,0 +1,54 @@
+<mvc:View
+ controllerName="sap.ui.demo.viniCelulares.controller.CadastroDeCelular" 
+   xmlns:mvc="sap.ui.core.mvc"
+   xmlns:core="sap.ui.core"
+   xmlns="sap.m"
+     xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form">
+
+ <Page 
+        showHeader="true" 
+        enableScrolling="true" 
+        showNavButton="true"
+        navButtonPress="aoClicarEmVoltar" 
+        title="{i18n>TituloDeCadastro}" 
+        titleAlignment="Center">
+        <headerContent>
+            <Button text="{i18n>botaoSalvar}" icon="sap-icon://add" width="auto" type="Accept" press="aoClicarSalvar"/>
+            <Button text="{i18n>botaoCancelar}" icon="sap-icon://decline" width="auto" type="Reject" press="aoClicarCancelar"/>
+        </headerContent>
+        <VBox class="sapUiSmallMargin">
+            <l:VerticalLayout class="sapUiContentPadding" width="50%">
+                <Label text="{i18n>CampoMarca}" required="true" />
+                <Input 
+                    id="marca"
+                    value="{celulares>/marca}" 
+                    placeholder="Marca Do Celular"/>
+                <Label text="{i18n>CampoModelo}" required="true"/>
+                <Input
+                    id="modelo" 
+                    value="{celulares>/modelo}" 
+                    placeholder="Modelo do Celular"/>
+                <Label text="{i18n>CampoCor}" required="true"/>
+                <Input
+                    id="cor" 
+                    value="{celulares>/cor}" 
+                    placeholder="Cor do Celular"
+                    liveChange="aoMudarCampoCategoria"/>
+                 <Label text="{i18n>CampoMemoria}" required="true"/>
+                <Input
+                    id="memoria" 
+                    value="{celulares>/memoria}" 
+                    placeholder="Memoria do Celular"
+                    liveChange="aoMudarCampoEstoque"/>
+                <Label text="{i18n>CampoDataDeFabricacao}" required="true"/>
+                <DatePicker
+                    id="dataDeFabricacao" 
+                    value="{celulares>/anoFabricacao}" 
+                    valueFormat="yyyy-MM-ddTHH:mm:ss"
+                    displayFormat="dd/MM/yyyy"
+                    placeholder="Dia/Mês/Ano"/>
+               
+            </l:VerticalLayout>
+        </VBox>
+    </Page>

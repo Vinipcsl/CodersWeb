@@ -1,7 +1,8 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller"
 ], function (Controller) {
-	return Controller.extend("sap.ui.demo.viniCelulares.controller.App", {
+	const caminhoControllerApp="sap.ui.demo.viniCelulares.controller.App";
+	return Controller.extend(caminhoControllerApp, {
 
 		onInit: function () {
 			this.getView().addStyleClass(this.getOwnerComponent().getContentDensityClass());

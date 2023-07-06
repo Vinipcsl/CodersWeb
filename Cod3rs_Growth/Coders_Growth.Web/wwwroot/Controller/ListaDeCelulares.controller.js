@@ -9,13 +9,13 @@ sap.ui.define([
 	"use strict";
 
 	const uri="https://localhost:59606/api/celular/";
-	const caminhoLista = "sap.ui.demo.viniCelulares.controller.ListaDeCelulares";
+	const caminhoControllerLista = "sap.ui.demo.viniCelulares.controller.ListaDeCelulares";
 	const celulares = "celulares";
 	const celularesDaLista= "celularesDaLista";
 	const items= "items";
 	const filtoMarca="marca";
 	
-	return Controller.extend(caminhoLista, {
+	return Controller.extend(caminhoControllerLista, {
 
 		onInit:function() {
 			let tela = this.getView();

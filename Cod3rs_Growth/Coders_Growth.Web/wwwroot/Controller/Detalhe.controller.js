@@ -4,11 +4,11 @@ sap.ui.define([
 ], function (Controller, JSONModel) {	
 	"use strict";
 	const uri="https://localhost:59606/api/celular/";
-	const rotaDetalhe="sap.ui.demo.viniCelulares.controller.Detalhe";
+	const caminhoControllerDetalhe="sap.ui.demo.viniCelulares.controller.Detalhe";
 	const lista="listaDeCelulares";
 	
 
-	return Controller.extend(rotaDetalhe, {	
+	return Controller.extend(caminhoControllerDetalhe, {	
 		
 		
 		onInit: function () {

@@ -16,7 +16,7 @@
                     <OverflowToolbar  id="otbSubheader">
                         <Title text="{i18n>NomeDaLista}"/>
                         <ToolbarSpacer/>
-                        <OverflowToolbarButton press="aoClicarAdicionar" tooltip="i18n>Adicionar" text="i18n>Add" icon="sap-icon://add-equipment" type="Accept" />
+                        <OverflowToolbarButton press="aoClicarAdicionar" tooltip="{i18n>Adicionar}" text="{i18n>Add}" icon="sap-icon://add-equipment" type="Accept" />
                         <SearchField search="aoClicarProcurarCelular">
                             <layoutData><OverflowToolbarLayoutData maxWidth="300px" shrinkable="true" priority="NeverOverflow"/></layoutData>
                         </SearchField>

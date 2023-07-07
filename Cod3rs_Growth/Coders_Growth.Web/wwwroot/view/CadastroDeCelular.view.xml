@@ -23,23 +23,23 @@
                 <Input 
                     id="marca"
                     value="{celulares>/marca}" 
-                    placeholder="Marca Do Celular"/>
+                    placeholder="{i18n>MarcaDoCelular}"/>
                 <Label text="{i18n>CampoModelo}" required="true"/>
                 <Input
                     id="modelo" 
                     value="{celulares>/modelo}" 
-                    placeholder="Modelo do Celular"/>
+                    placeholder="{i18n>ModeloDoCelular}"/>
                 <Label text="{i18n>CampoCor}" required="true"/>
                 <Input
                     id="cor" 
                     value="{celulares>/cor}" 
-                    placeholder="Cor do Celular"
+                    placeholder="{i18n>CorDoCelular}"
                     liveChange="aoMudarCampoCategoria"/>
                  <Label text="{i18n>CampoMemoria}" required="true"/>
                 <Input
                     id="memoria" 
                     value="{celulares>/memoria}" 
-                    placeholder="Memoria do Celular"
+                    placeholder="{i18n>MemoriaDoCelular}"
                     liveChange="aoMudarCampoEstoque"/>
                 <Label text="{i18n>CampoAnoFabricacao}" required="true"/>
                 <DatePicker
@@ -47,7 +47,7 @@
                     value="{celulares>/anoFabricacao}" 
                     valueFormat="yyyy-MM-ddTHH:mm:ss"
                     displayFormat="dd/MM/yyyy"
-                    placeholder="Dia/Mês/Ano"/>
+                    placeholder="{i18n>AnoFabricacaoDoCelular}"/>
                
             </l:VerticalLayout>
         </VBox>

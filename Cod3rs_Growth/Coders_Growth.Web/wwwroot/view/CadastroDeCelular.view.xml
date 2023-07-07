@@ -41,7 +41,7 @@
                     value="{celulares>/memoria}" 
                     placeholder="Memoria do Celular"
                     liveChange="aoMudarCampoEstoque"/>
-                <Label text="{i18n>CampoDataDeFabricacao}" required="true"/>
+                <Label text="{i18n>CampoAnoFabricacao}" required="true"/>
                 <DatePicker
                     id="dataDeFabricacao" 
                     value="{celulares>/anoFabricacao}" 

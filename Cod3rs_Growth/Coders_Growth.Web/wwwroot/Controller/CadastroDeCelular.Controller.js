@@ -23,7 +23,7 @@ sap.ui.define([
 		setarModeloCelular: function()
 		{
 			const stringVazia = "";
-			
+
 			let celular= {
 				marca: stringVazia,
 				modelo:stringVazia,
@@ -34,12 +34,14 @@ sap.ui.define([
 			this.getView().setModel(new JSONModel(celular),modeloCelular);
 		},
 		aoClicarEmSalvar: function()
-		{
-			debugger
+		{			
 			const celular = this.getView()
 			.getModel(modeloCelular)
 			.getData();
 			this._salvarCelular(celular);
+		},
+		aoClicarEmCancelar: function () {
+			this._navegar(lista);
 		},
 		_salvarCelular: function(celular)
 		{

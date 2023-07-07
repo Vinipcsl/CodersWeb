@@ -31,7 +31,7 @@ sap.ui.define([
 
 		_detalhes : function (id){
 			const celular="celular";
-
+	
             let tela = this.getView();
             fetch(`${uri}${id}`)
                .then(function(response){

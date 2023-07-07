@@ -23,6 +23,7 @@ sap.ui.define([
 		setarModeloCelular: function()
 		{
 			const stringVazia = "";
+
 			let celular= {
 				marca: stringVazia,
 				modelo:stringVazia,
@@ -33,29 +34,33 @@ sap.ui.define([
 			this.getView().setModel(new JSONModel(celular),modeloCelular);
 		},
 		aoClicarEmSalvar: function()
-		{
+		{			
 			const celular = this.getView()
 			.getModel(modeloCelular)
 			.getData();
 			this._salvarCelular(celular);
 		},
+		aoClicarEmCancelar: function () {
+			this._navegar(lista);
+		},
 		_salvarCelular: function(celular)
 		{
-			rotaDetalhe = "detalhe";
+			const rotaDetalhe = "detalhe";
 			fetch(uri,{
 				method:"POST",
+				mode: "cors",
 				headers:{
 					"Content-Type": "application/json",
 				},
 				body:JSON.stringify(celular)
 			})
 			.then((response)=> response.json())
-			.then(anoFabricado => this._navegar(rotaDetalhe))
+			.then(novoCelular => this._navegar(rotaDetalhe, novoCelular.id))
 		},
 
-		_navegar: function(lista){
+		_navegar: function(lista, id){
             let oRouter = this.getOwnerComponent().getRouter();
-            oRouter.navTo(lista);
+            oRouter.navTo(lista, {id});
         },
     
         aoClicarEmVoltar: function () {

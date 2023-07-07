@@ -16,8 +16,15 @@ sap.ui.define([
 	const filtoMarca="marca";
 	
 	return Controller.extend(caminhoControllerLista, {
-
+		
 		onInit:function() {
+			const rotaListaDeCelulares = "listaDeCelulares";
+			var oRouter = this.getOwnerComponent().getRouter();
+			   oRouter.getRoute(rotaListaDeCelulares).attachPatternMatched(this._aoCoincidirRota, this);     
+		 },
+		_aoCoincidirRota: function()
+		{
+			
 			let tela = this.getView();
 			fetch(uri)
 			   .then(response => {

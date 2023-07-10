@@ -1,17 +1,23 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
-	"sap/ui/model/json/JSONModel"
-], function (Controller, JSONModel) {	
+	"sap/ui/model/json/JSONModel",
+	"../services/Validacao"
+], function (Controller, JSONModel,Validacao) {	
 	"use strict";
 	const uri="https://localhost:59606/api/celular/";
 	const caminhoControllerCadastroDeCelular="sap.ui.demo.viniCelulares.controller.CadastroDeCelular";
 	const lista="listaDeCelulares";
 	const modeloCelular = "celulares";
-	
+	const inputMarca= "inputMarca";
+	const inputModelo ="inputModelo";
+	const inputCor ="inputCor";
+	const inputMemoria ="inputMemoria";
+	const inputAnoFabricado ="inputAnoFabricado";	
 
 	return Controller.extend(caminhoControllerCadastroDeCelular, {	
 
-		onInit : function() {
+		onInit : function() 
+		{
 			let oRouter = this.getOwnerComponent().getRouter();
 			oRouter.attachRoutePatternMatched(this._aoCoincidirRota, this);
 		},
@@ -33,12 +39,26 @@ sap.ui.define([
 			}
 			this.getView().setModel(new JSONModel(celular),modeloCelular);
 		},
-		aoClicarEmSalvar: function()
-		{			
-			const celular = this.getView()
-			.getModel(modeloCelular)
-			.getData();
-			this._salvarCelular(celular);
+		aoClicarEmSalvar: async function()
+		{					
+			
+
+			let celularCriacao = this.getView().getModel("celulares").getData();
+			let marca = this.getView().byId(inputMarca)
+			let modelo = this.getView().byId(inputModelo)
+			let cor =  this.getView().byId(inputCor)
+			let memoria = this.getView().byId(inputMemoria)
+			let anoFabricado = this.getView().byId(inputAnoFabricado)
+			let validarMarca = Validacao.validarMarca(marca)
+			let validarModelo = Validacao.validarModelo(modelo)
+			let validarCor = Validacao.validarCor(cor)
+			let validarMemoria = Validacao.validarMemoria(memoria)
+			let validarAnoFabricado = Validacao.validarAnoFabricado(anoFabricado)
+			
+			if (validarMarca && validarModelo && validarCor && validarMemoria && validarAnoFabricado)
+			{				
+				await this._salvarCelular(celularCriacao)
+			}			
 		},
 		aoClicarEmCancelar: function () {
 			this._navegar(lista);

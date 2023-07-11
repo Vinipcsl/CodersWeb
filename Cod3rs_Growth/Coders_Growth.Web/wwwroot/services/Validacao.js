@@ -2,7 +2,7 @@ sap.ui.define([
     "sap/ui/core/library"
     ],function (coreLibrary) {
         "use strict";
-      
+       
         const stringVazia = "";
         const ValueStateErro = coreLibrary.ValueState.Error;
         const ValueStatePadrao = coreLibrary.ValueState.None;
@@ -42,7 +42,8 @@ sap.ui.define([
             return true;}
             },
         validarMemoria: function(inpoutMemoria){
-            let memoria = parseInt(inpoutMemoria.getValue())
+            
+            let memoria = inpoutMemoria.getValue()
             if(memoria == stringVazia){
                 inpoutMemoria.setValueState(ValueStateErro);
                 inpoutMemoria.setValueStateText("Por gentileza, preencha corretamento o campo memoria♥")

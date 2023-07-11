@@ -33,14 +33,14 @@
                 <Input
                     id="cor" 
                     value="{celulares>/cor}" 
-                    placeholder="{i18n>CorDoCelular}"
-                    liveChange="aoMudarCampoCategoria"/>
+                    placeholder="{i18n>CorDoCelular}"                    
+                    liveChange="aoInserirCor"/>
                  <Label text="{i18n>CampoMemoria}" required="true"/>
                 <Input
                     id="memoria" 
                     value="{celulares>/memoria}" 
                     placeholder="{i18n>MemoriaDoCelular}"
-                    liveChange="aoMudarCampoEstoque"/>
+                    liveChange="aoInserirMemoria"/>
                 <Label text="{i18n>CampoAnoFabricacao}" required="true"/>
                 <DatePicker
                     id="dataDeFabricacao" 

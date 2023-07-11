@@ -1,18 +1,19 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/model/json/JSONModel",
-	"../services/Validacao"
-], function (Controller, JSONModel,Validacao) {	
+	"../services/Validacao",
+	"../model/Formatter"
+], function (Controller, JSONModel,Validacao,Formatter) {	
 	"use strict";
 	const uri="https://localhost:59606/api/celular/";
 	const caminhoControllerCadastroDeCelular="sap.ui.demo.viniCelulares.controller.CadastroDeCelular";
 	const lista="listaDeCelulares";
 	const modeloCelular = "celulares";
-	const inputMarca= "inputMarca";
-	const inputModelo ="inputModelo";
-	const inputCor ="inputCor";
-	const inputMemoria ="inputMemoria";
-	const inputAnoFabricado ="inputAnoFabricado";	
+	const inputMarca= "marca";
+	const inputModelo ="modelo";
+	const inputCor ="cor";
+	const inputMemoria ="memoria";
+	const inputAnoFabricado ="dataDeFabricacao";	
 
 	return Controller.extend(caminhoControllerCadastroDeCelular, {	
 
@@ -40,9 +41,7 @@ sap.ui.define([
 			this.getView().setModel(new JSONModel(celular),modeloCelular);
 		},
 		aoClicarEmSalvar: async function()
-		{					
-			
-
+		{						
 			let celularCriacao = this.getView().getModel("celulares").getData();
 			let marca = this.getView().byId(inputMarca)
 			let modelo = this.getView().byId(inputModelo)
@@ -53,9 +52,9 @@ sap.ui.define([
 			let validarModelo = Validacao.validarModelo(modelo)
 			let validarCor = Validacao.validarCor(cor)
 			let validarMemoria = Validacao.validarMemoria(memoria)
-			let validarAnoFabricado = Validacao.validarAnoFabricado(anoFabricado)
+			let validarData = Validacao.validarData(anoFabricado)
 			
-			if (validarMarca && validarModelo && validarCor && validarMemoria && validarAnoFabricado)
+			if (validarMarca && validarModelo && validarCor && validarMemoria && validarData)
 			{				
 				await this._salvarCelular(celularCriacao)
 			}			
@@ -87,6 +86,15 @@ sap.ui.define([
 			let oRouter = this.getOwnerComponent().getRouter();
             this._navegar(lista);
 		},
-    
-        });
+		
+		aoInserirCor: function() {
+			let cor = this.getView().byId(inputCor)
+			Formatter.formatarCor(cor)
+		},
+
+		aoInserirMemoria: function() {
+			let memoria = this.getView().byId(inputMemoria)
+			Formatter.formatarMemoria(memoria)
+		}    
     });
+});

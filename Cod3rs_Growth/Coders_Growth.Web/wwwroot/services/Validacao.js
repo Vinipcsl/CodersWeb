@@ -2,9 +2,7 @@ sap.ui.define([
     "sap/ui/core/library"
     ],function (coreLibrary) {
         "use strict";
-        const regexNumero = /^[^\d]+$/;
-        const regexLetra = /^[^a-zA-Z]+$/;
-
+      
         const stringVazia = "";
         const ValueStateErro = coreLibrary.ValueState.Error;
         const ValueStatePadrao = coreLibrary.ValueState.None;
@@ -34,7 +32,7 @@ sap.ui.define([
         },
         validarCor: function(inpoutCor){
             let cor = inpoutCor.getValue()
-            if(cor == stringVazia || regexNumero){            
+            if(cor == stringVazia){            
                     inpoutCor.setValueState(ValueStateErro);
                     inpoutCor.setValueStateText("Por gentileza, preencha corretamente o campo cor♥")
                     return false;
@@ -45,13 +43,26 @@ sap.ui.define([
             },
         validarMemoria: function(inpoutMemoria){
             let memoria = parseInt(inpoutMemoria.getValue())
-            if(memoria == stringVazia || regexLetra){
+            if(memoria == stringVazia){
                 inpoutMemoria.setValueState(ValueStateErro);
                 inpoutMemoria.setValueStateText("Por gentileza, preencha corretamento o campo memoria♥")
                 return false;
             }
             else{
                 inpoutMemoria.setValueState(ValueStatePadrao);
+                return true;
+            }
+        },
+        validarData: function(inputAnoFabricado){
+            let anoFabricado = inputAnoFabricado.getValue()
+            
+            if( anoFabricado == stringVazia){
+                inputAnoFabricado.setValueState(ValueStateErro);
+                inputAnoFabricado.setValueStateText("Por gentileza, selecione uma data válida♥")
+                return false;
+            }
+            else{
+                inputAnoFabricado.setValueState(ValueStatePadrao);
                 return true;
             }
         }

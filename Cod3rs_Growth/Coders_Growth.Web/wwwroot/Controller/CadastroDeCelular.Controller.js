@@ -41,23 +41,31 @@ sap.ui.define([
 			this.getView().setModel(new JSONModel(celular),modeloCelular);
 		},
 		aoClicarEmSalvar: async function()
-		{						
-			let celularCriacao = this.getView().getModel("celulares").getData();
+		{			
 			let marca = this.getView().byId(inputMarca)
 			let modelo = this.getView().byId(inputModelo)
 			let cor =  this.getView().byId(inputCor)
 			let memoria = this.getView().byId(inputMemoria)
 			let anoFabricado = this.getView().byId(inputAnoFabricado)
-			let validarMarca = Validacao.validarMarca(marca)
-			let validarModelo = Validacao.validarModelo(modelo)
-			let validarCor = Validacao.validarCor(cor)
-			let validarMemoria = Validacao.validarMemoria(memoria)
-			let validarData = Validacao.validarData(anoFabricado)
 			
-			if (validarMarca && validarModelo && validarCor && validarMemoria && validarData)
-			{				
-				await this._salvarCelular(celularCriacao)
-			}			
+			let validarCampos = [marca, modelo, cor, memoria, anoFabricado];
+
+			let objetoCamposAValidar = {
+					marca,
+					modelo,
+					cor,
+					memoria,
+					anoFabricado
+				}
+				
+				let celularCriacao = this.getView().byId()			
+	
+				// if (Validacao.ehCamposValidos(validarCampos))
+				
+				if (Validacao.ehCamposValidos(objetoCamposAValidar))
+				{				
+					 this._salvarCelular(celularCriacao)
+				}			
 		},
 		aoClicarEmCancelar: function () {
 			this._navegar(lista);

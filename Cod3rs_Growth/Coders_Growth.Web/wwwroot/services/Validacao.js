@@ -19,7 +19,7 @@ sap.ui.define([
 
             if (inputMarca.getValue() == stringVazia) {
                 inputMarca.setValueState(ValueStateErro);
-                inputMarca.setValueStateText(this.i18n.getText("ValidacaoMarca"));
+                inputMarca.setValueStateText(mensagemDeErroDosCampos);
                 return false;
             } else {
                 inputMarca.setValueState(ValueStatePadrao);
@@ -31,7 +31,7 @@ sap.ui.define([
 
             if (inputModelo.getValue() == stringVazia) {
                 inputModelo.setValueState(ValueStateErro);
-                inputModelo.setValueStateText(this.i18n.getText("ValidacaoModelo"));
+                inputModelo.setValueStateText(mensagemDeErroDosCampos);
                 return false;
             } else {
                 inputModelo.setValueState(ValueStatePadrao);
@@ -43,7 +43,7 @@ sap.ui.define([
 
             if (inputCor.getValue() == stringVazia) {
                 inputCor.setValueState(ValueStateErro);
-                inputCor.setValueStateText(this.i18n.getText("ValidacaoCor"));
+                inputCor.setValueStateText(mensagemDeErroDosCampos);
                 return false;
             } else {
                 inputCor.setValueState(ValueStatePadrao);
@@ -55,7 +55,7 @@ sap.ui.define([
 
             if (inputMemoria.getValue() == stringVazia) {
                 inputMemoria.setValueState(ValueStateErro);
-                inputMemoria.setValueStateText(this.i18n.getText("ValidacaoMemoria"));
+                inputMemoria.setValueStateText(mensagemDeErroDosCampos);
                 return false;
             } else {
                 inputMemoria.setValueState(ValueStatePadrao);
@@ -67,7 +67,7 @@ sap.ui.define([
 
             if (inputAnoFabricado.getValue() == stringVazia) {
                 inputAnoFabricado.setValueState(ValueStateErro);
-                inputAnoFabricado.setValueStateText(this.i18n.getText("ValidacaoAnoFabricacao"));
+                inputAnoFabricado.setValueStateText(mensagemDeErroDosCampos);
                 return false;
             } else {
                 inputAnoFabricado.setValueState(ValueStatePadrao);
@@ -91,8 +91,12 @@ sap.ui.define([
         
         mensagemDeErroDosCampos : function (){            
             
-       this.i18n.getText(ValidacaoMarca);          
-        
+       this.i18n.getText("ValidacaoMarca");
+       this.i18n.getText("ValidacaoModelo");
+       this.i18n.getText("ValidacaoCor");
+       this.i18n.getText("ValidacaoMemoria");
+       this.i18n.getText("ValidacaoAnoFabricacao");        
+
         }
     };
 });

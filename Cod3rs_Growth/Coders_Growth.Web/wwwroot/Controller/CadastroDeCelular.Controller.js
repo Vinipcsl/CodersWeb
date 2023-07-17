@@ -20,7 +20,7 @@ sap.ui.define([
 
 		onInit : function() 
 		{
-			var oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			const oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			Validacao.setI18Nmodel(oBundle);
 
 			let oRouter = this.getOwnerComponent().getRouter();
@@ -44,7 +44,7 @@ sap.ui.define([
 			}
 			this.getView().setModel(new JSONModel(celular),modeloCelular);
 		},
-		aoClicarEmSalvar: async function()
+		aoClicarEmSalvar: function()
 		{			
 			let marca = this.getView().byId(inputMarca)
 			let modelo = this.getView().byId(inputModelo)

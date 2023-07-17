@@ -5,6 +5,7 @@ sap.ui.define([
 	"../model/Formatter"
 ], function (Controller, JSONModel,Validacao,Formatter) {	
 	"use strict";
+
 	const uri="https://localhost:59606/api/celular/";
 	const caminhoControllerCadastroDeCelular="sap.ui.demo.viniCelulares.controller.CadastroDeCelular";
 	const lista="listaDeCelulares";
@@ -19,6 +20,9 @@ sap.ui.define([
 
 		onInit : function() 
 		{
+			var oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			Validacao.setI18Nmodel(oBundle);
+
 			let oRouter = this.getOwnerComponent().getRouter();
 			oRouter.attachRoutePatternMatched(this._aoCoincidirRota, this);
 		},
@@ -48,8 +52,8 @@ sap.ui.define([
 			let memoria = this.getView().byId(inputMemoria)
 			let anoFabricado = this.getView().byId(inputAnoFabricado)
 			
-			let validarCampos = [marca, modelo, cor, memoria, anoFabricado];
-
+			
+						
 			let objetoCamposAValidar = {
 					marca,
 					modelo,
@@ -58,14 +62,15 @@ sap.ui.define([
 					anoFabricado
 				}
 				
-				let celularCriacao = this.getView().byId()			
-	
-				// if (Validacao.ehCamposValidos(validarCampos))
+				let celularCriacao = this.getView().byId()		
 				
 				if (Validacao.ehCamposValidos(objetoCamposAValidar))
 				{				
 					 this._salvarCelular(celularCriacao)
-				}			
+				}	
+				else{
+					Validacao.mensagemDeErroDosCampos();
+				}		
 		},
 		aoClicarEmCancelar: function () {
 			this._navegar(lista);

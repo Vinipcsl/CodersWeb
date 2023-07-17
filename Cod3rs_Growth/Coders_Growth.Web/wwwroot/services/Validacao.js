@@ -3,28 +3,23 @@ sap.ui.define([
 ], function(coreLibrary) {
     "use strict";
 
+   
+
     const stringVazia = "";
     const ValueStateErro = coreLibrary.ValueState.Error;
     const ValueStatePadrao = coreLibrary.ValueState.None;
-
-    const inputMarca = "marca";
-    const inputModelo = "modelo";
-    const inputCor = "cor";
-    const inputMemoria = "memoria";
-    const inputAnoFabricado = "dataDeFabricacao";
-
+   
     return {
-        
+         i18n : null,
+         setI18Nmodel :function(_i18n){
+            this.i18n=_i18n;
+            },
+
         validarMarca: function(inputMarca) {
-            var i18nModel = new ResourceModel({
-                bundleName: "viniCelulares.i18n.i18n",
-                bundleUrl: "../i18n/i18n.properties"
-            });
-            const mensagemFalhaValidacao = i18n.getText("mensagemDoi18n");
 
             if (inputMarca.getValue() == stringVazia) {
                 inputMarca.setValueState(ValueStateErro);
-                inputMarca.setValueStateText("Por gentileza, preencha o campo marca ♥");
+                inputMarca.setValueStateText(this.i18n.getText("ValidacaoMarca"));
                 return false;
             } else {
                 inputMarca.setValueState(ValueStatePadrao);
@@ -33,14 +28,10 @@ sap.ui.define([
         },
 
         validarModelo: function(inputModelo) {
-            var i18nModel = new ResourceModel({
-                bundleName: "viniCelulares.i18n.i18n",
-                bundleUrl: "../i18n/i18n.properties"
-            });
 
             if (inputModelo.getValue() == stringVazia) {
                 inputModelo.setValueState(ValueStateErro);
-                inputModelo.setValueStateText("Por gentileza, preencha o campo modelo♥");
+                inputModelo.setValueStateText(this.i18n.getText("ValidacaoModelo"));
                 return false;
             } else {
                 inputModelo.setValueState(ValueStatePadrao);
@@ -49,14 +40,10 @@ sap.ui.define([
         },
 
         validarCor: function(inputCor) {
-            var i18nModel = new ResourceModel({
-                bundleName: "viniCelulares.i18n.i18n",
-                bundleUrl: "../i18n/i18n.properties"
-            });
 
             if (inputCor.getValue() == stringVazia) {
                 inputCor.setValueState(ValueStateErro);
-                inputCor.setValueStateText("Por gentileza, preencha corretamente o campo cor♥");
+                inputCor.setValueStateText(this.i18n.getText("ValidacaoCor"));
                 return false;
             } else {
                 inputCor.setValueState(ValueStatePadrao);
@@ -65,14 +52,10 @@ sap.ui.define([
         },
 
         validarMemoria: function(inputMemoria) {
-            var i18nModel = new ResourceModel({
-                bundleName: "viniCelulares.i18n.i18n",
-                bundleUrl: "../i18n/i18n.properties"
-            });
 
             if (inputMemoria.getValue() == stringVazia) {
                 inputMemoria.setValueState(ValueStateErro);
-                inputMemoria.setValueStateText("Por gentileza, preencha corretamento o campo memoria♥");
+                inputMemoria.setValueStateText(this.i18n.getText("ValidacaoMemoria"));
                 return false;
             } else {
                 inputMemoria.setValueState(ValueStatePadrao);
@@ -81,14 +64,10 @@ sap.ui.define([
         },
 
         validarData: function(inputAnoFabricado) {
-            var i18nModel = new ResourceModel({
-                bundleName: "viniCelulares.i18n.i18n",
-                bundleUrl: "../i18n/i18n.properties"
-            });
 
             if (inputAnoFabricado.getValue() == stringVazia) {
                 inputAnoFabricado.setValueState(ValueStateErro);
-                inputAnoFabricado.setValueStateText("Por gentileza, selecione uma data válida♥");
+                inputAnoFabricado.setValueStateText(this.i18n.getText("ValidacaoAnoFabricacao"));
                 return false;
             } else {
                 inputAnoFabricado.setValueState(ValueStatePadrao);
@@ -108,6 +87,12 @@ sap.ui.define([
            &&resultadoValidacaoCor
            &&resultadoValidarMemoria
            &&resiçtadoValidarAnoFabricado
+        },
+        
+        mensagemDeErroDosCampos : function (){            
+            
+       this.i18n.getText(ValidacaoMarca);          
+        
         }
     };
 });

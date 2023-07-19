@@ -3,8 +3,8 @@
    xmlns:mvc="sap.ui.core.mvc"
    xmlns:core="sap.ui.core"
    xmlns="sap.m"
-     xmlns:l="sap.ui.layout"
-	xmlns:f="sap.ui.layout.form">
+   xmlns:l="sap.ui.layout"
+   xmlns:f="sap.ui.layout.form">
 
  <Page 
         showHeader="true" 
@@ -33,22 +33,22 @@
                 <Input
                     id="cor" 
                     value="{celulares>/cor}" 
-                    placeholder="{i18n>CorDoCelular}"
-                    liveChange="aoMudarCampoCategoria"/>
+                    placeholder="{i18n>CorDoCelular}"                    
+                    liveChange="aoInserirCor"/>
                  <Label text="{i18n>CampoMemoria}" required="true"/>
                 <Input
                     id="memoria" 
                     value="{celulares>/memoria}" 
                     placeholder="{i18n>MemoriaDoCelular}"
-                    liveChange="aoMudarCampoEstoque"/>
+                    liveChange="aoInserirMemoria"/>
                 <Label text="{i18n>CampoAnoFabricacao}" required="true"/>
                 <DatePicker
                     id="dataDeFabricacao" 
                     value="{celulares>/anoFabricacao}" 
                     valueFormat="yyyy-MM-ddTHH:mm:ss"
                     displayFormat="dd/MM/yyyy"
-                    placeholder="{i18n>AnoFabricacaoDoCelular}"/>
-               
+                    placeholder="{i18n>AnoFabricacaoDoCelular}"/>               
             </l:VerticalLayout>
         </VBox>
     </Page>
+</mvc:View>

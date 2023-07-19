@@ -1,17 +1,32 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
-	"sap/ui/model/json/JSONModel"
-], function (Controller, JSONModel) {	
+	"sap/ui/model/json/JSONModel",
+	"../services/Validacao",
+	"../model/Formatter",
+	"sap/m/MessageBox"
+
+], function (Controller, JSONModel,Validacao,Formatter,MessageBox) {	
 	"use strict";
+
+
 	const uri="https://localhost:59606/api/celular/";
 	const caminhoControllerCadastroDeCelular="sap.ui.demo.viniCelulares.controller.CadastroDeCelular";
 	const lista="listaDeCelulares";
 	const modeloCelular = "celulares";
-	
+	const inputMarca= "marca";
+	const inputModelo ="modelo";
+	const inputCor ="cor";
+	const inputMemoria ="memoria";
+	const inputAnoFabricado ="dataDeFabricacao";	
 
 	return Controller.extend(caminhoControllerCadastroDeCelular, {	
 
-		onInit : function() {
+		onInit : function() 
+		{
+			const I18n = "i18n"
+			const oBundle = this.getOwnerComponent().getModel(I18n).getResourceBundle();
+			Validacao.setI18Nmodel(oBundle);
+
 			let oRouter = this.getOwnerComponent().getRouter();
 			oRouter.attachRoutePatternMatched(this._aoCoincidirRota, this);
 		},
@@ -20,11 +35,13 @@ sap.ui.define([
 		{
 			this.setarModeloCelular();
 		},
+
 		setarModeloCelular: function()
 		{
 			const stringVazia = "";
 
 			let celular= {
+				id: 0,
 				marca: stringVazia,
 				modelo:stringVazia,
 				cor: stringVazia,
@@ -33,18 +50,53 @@ sap.ui.define([
 			}
 			this.getView().setModel(new JSONModel(celular),modeloCelular);
 		},
+
 		aoClicarEmSalvar: function()
 		{			
-			const celular = this.getView()
-			.getModel(modeloCelular)
-			.getData();
-			this._salvarCelular(celular);
+			let marca = this.getView().byId(inputMarca)
+			let modelo = this.getView().byId(inputModelo)
+			let cor =  this.getView().byId(inputCor)
+			let memoria = this.getView().byId(inputMemoria)
+			let anoFabricado = this.getView().byId(inputAnoFabricado)
+						
+			let objetoCamposAValidar = {
+					marca,
+					modelo,
+					cor,
+					memoria,
+					anoFabricado
+				}
+				
+				if (Validacao.ehCamposValidos(objetoCamposAValidar))
+				{
+					const Celulares = "celulares"
+					let celular = this.getView().getModel(Celulares).getData();
+					console.log(celular)				
+					 this._salvarCelular(celular)
+				}	
+				else{
+					const mensagemDeFalhaAoCadastrar = "ValidacaoDeFalha";
+
+				MessageBox.error(Validacao.mensagemDeErroDosCampos(mensagemDeFalhaAoCadastrar));
+				}
 		},
+		
+		_modeloCelulares: function(modelo){
+				const nomeModelo = "celulares";
+				if (modelo){
+				return this.getView().setModel(modelo, nomeModelo);
+				} else{
+				return this.getView().getModel(nomeModelo);
+				}
+		},
+				
 		aoClicarEmCancelar: function () {
 			this._navegar(lista);
 		},
+
 		_salvarCelular: function(celular)
 		{
+			console.log(celular)
 			const rotaDetalhe = "detalhe";
 			fetch(uri,{
 				method:"POST",
@@ -55,7 +107,10 @@ sap.ui.define([
 				body:JSON.stringify(celular)
 			})
 			.then((response)=> response.json())
-			.then(novoCelular => this._navegar(rotaDetalhe, novoCelular.id))
+			.then(novoCelular =>{
+				console.log(celular)
+				this._navegar(rotaDetalhe, novoCelular.id)
+			} )
 		},
 
 		_navegar: function(lista, id){
@@ -67,6 +122,15 @@ sap.ui.define([
 			let oRouter = this.getOwnerComponent().getRouter();
             this._navegar(lista);
 		},
-    
-        });
+		
+		aoInserirCor: function() {
+			let cor = this.getView().byId(inputCor)
+			Formatter.formatarCor(cor)
+		},
+
+		aoInserirMemoria: function() {
+			let memoria = this.getView().byId(inputMemoria)
+			Formatter.formatarMemoria(memoria)
+		}    
     });
+});

@@ -3,9 +3,9 @@ sap.ui.define([
 	"sap/ui/model/json/JSONModel",
 	"../services/Validacao",
 	"../model/Formatter",
-	"sap/m/MessageToast"
+	"sap/m/MessageBox"
 
-], function (Controller, JSONModel,Validacao,Formatter,MessageToast) {	
+], function (Controller, JSONModel,Validacao,Formatter,MessageBox) {	
 	"use strict";
 
 
@@ -74,7 +74,7 @@ sap.ui.define([
 				else{
 					const mensagemDeFalhaAoCadastrar = "ValidacaoDeFalha";
 
-				MessageToast.show(Validacao.mensagemDeErroDosCampos(mensagemDeFalhaAoCadastrar));
+				MessageBox.error(Validacao.mensagemDeErroDosCampos(mensagemDeFalhaAoCadastrar));
 				}		
 		},
 		aoClicarEmCancelar: function () {

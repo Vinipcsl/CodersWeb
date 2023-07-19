@@ -71,7 +71,6 @@ sap.ui.define([
 				{
 					const Celulares = "celulares"
 					let celular = this.getView().getModel(Celulares).getData();
-					debugger
 					console.log(celular)				
 					 this._salvarCelular(celular)
 				}	
@@ -109,7 +108,6 @@ sap.ui.define([
 			})
 			.then((response)=> response.json())
 			.then(novoCelular =>{
-				debugger
 				console.log(celular)
 				this._navegar(rotaDetalhe, novoCelular.id)
 			} )

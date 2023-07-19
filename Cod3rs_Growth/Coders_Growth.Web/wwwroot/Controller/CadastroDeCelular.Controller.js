@@ -23,7 +23,8 @@ sap.ui.define([
 
 		onInit : function() 
 		{
-			const oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			const I18n = "i18n"
+			const oBundle = this.getOwnerComponent().getModel(I18n).getResourceBundle();
 			Validacao.setI18Nmodel(oBundle);
 
 			let oRouter = this.getOwnerComponent().getRouter();
@@ -66,11 +67,10 @@ sap.ui.define([
 					anoFabricado
 				}
 				
-				// let celularCriacao = this.getView().byId()		
-				
 				if (Validacao.ehCamposValidos(objetoCamposAValidar))
-				{debugger
-					let celular = this.getView().getModel("celulares").getData();
+				{
+					const Celulares = "celulares"
+					let celular = this.getView().getModel(Celulares).getData();
 					debugger
 					console.log(celular)				
 					 this._salvarCelular(celular)

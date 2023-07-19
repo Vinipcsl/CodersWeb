@@ -34,11 +34,13 @@ sap.ui.define([
 		{
 			this.setarModeloCelular();
 		},
+
 		setarModeloCelular: function()
 		{
 			const stringVazia = "";
 
 			let celular= {
+				id: 0,
 				marca: stringVazia,
 				modelo:stringVazia,
 				cor: stringVazia,
@@ -47,6 +49,7 @@ sap.ui.define([
 			}
 			this.getView().setModel(new JSONModel(celular),modeloCelular);
 		},
+
 		aoClicarEmSalvar: function()
 		{			
 			let marca = this.getView().byId(inputMarca)
@@ -54,8 +57,6 @@ sap.ui.define([
 			let cor =  this.getView().byId(inputCor)
 			let memoria = this.getView().byId(inputMemoria)
 			let anoFabricado = this.getView().byId(inputAnoFabricado)
-			
-			
 						
 			let objetoCamposAValidar = {
 					marca,
@@ -65,23 +66,38 @@ sap.ui.define([
 					anoFabricado
 				}
 				
-				let celularCriacao = this.getView().byId()		
+				// let celularCriacao = this.getView().byId()		
 				
 				if (Validacao.ehCamposValidos(objetoCamposAValidar))
-				{				
-					 this._salvarCelular(celularCriacao)
+				{debugger
+					let celular = this.getView().getModel("celulares").getData();
+					debugger
+					console.log(celular)				
+					 this._salvarCelular(celular)
 				}	
 				else{
 					const mensagemDeFalhaAoCadastrar = "ValidacaoDeFalha";
 
 				MessageBox.error(Validacao.mensagemDeErroDosCampos(mensagemDeFalhaAoCadastrar));
-				}		
+				}
 		},
+		
+		_modeloCelulares: function(modelo){
+				const nomeModelo = "celulares";
+				if (modelo){
+				return this.getView().setModel(modelo, nomeModelo);
+				} else{
+				return this.getView().getModel(nomeModelo);
+				}
+		},
+				
 		aoClicarEmCancelar: function () {
 			this._navegar(lista);
 		},
+
 		_salvarCelular: function(celular)
 		{
+			console.log(celular)
 			const rotaDetalhe = "detalhe";
 			fetch(uri,{
 				method:"POST",
@@ -92,7 +108,11 @@ sap.ui.define([
 				body:JSON.stringify(celular)
 			})
 			.then((response)=> response.json())
-			.then(novoCelular => this._navegar(rotaDetalhe, novoCelular.id))
+			.then(novoCelular =>{
+				debugger
+				console.log(celular)
+				this._navegar(rotaDetalhe, novoCelular.id)
+			} )
 		},
 
 		_navegar: function(lista, id){

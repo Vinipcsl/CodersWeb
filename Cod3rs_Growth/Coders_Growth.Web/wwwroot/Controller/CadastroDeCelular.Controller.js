@@ -2,9 +2,12 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/model/json/JSONModel",
 	"../services/Validacao",
-	"../model/Formatter"
-], function (Controller, JSONModel,Validacao,Formatter) {	
+	"../model/Formatter",
+	"sap/m/MessageToast"
+
+], function (Controller, JSONModel,Validacao,Formatter,MessageToast) {	
 	"use strict";
+
 
 	const uri="https://localhost:59606/api/celular/";
 	const caminhoControllerCadastroDeCelular="sap.ui.demo.viniCelulares.controller.CadastroDeCelular";
@@ -69,7 +72,9 @@ sap.ui.define([
 					 this._salvarCelular(celularCriacao)
 				}	
 				else{
-					Validacao.mensagemDeErroDosCampos();
+					const mensagemDeFalhaAoCadastrar = "ValidacaoDeFalha";
+
+				MessageToast.show(Validacao.mensagemDeErroDosCampos(mensagemDeFalhaAoCadastrar));
 				}		
 		},
 		aoClicarEmCancelar: function () {

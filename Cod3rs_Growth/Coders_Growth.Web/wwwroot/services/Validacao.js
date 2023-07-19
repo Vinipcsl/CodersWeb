@@ -1,9 +1,7 @@
 sap.ui.define([
     "sap/ui/core/library"
 ], function(coreLibrary) {
-    "use strict";
-
-   
+    "use strict";  
 
     const stringVazia = "";
     const ValueStateErro = coreLibrary.ValueState.Error;
@@ -16,10 +14,11 @@ sap.ui.define([
             },
 
         validarMarca: function(inputMarca) {
-
             if (inputMarca.getValue() == stringVazia) {
+                const valicacaoMarca = "ValidacaoMarca"
+                const mensagemErroMarca = this.mensagemDeErroDosCampos(valicacaoMarca)
                 inputMarca.setValueState(ValueStateErro);
-                inputMarca.setValueStateText(mensagemDeErroDosCampos);
+                inputMarca.setValueStateText(mensagemErroMarca);
                 return false;
             } else {
                 inputMarca.setValueState(ValueStatePadrao);
@@ -28,10 +27,11 @@ sap.ui.define([
         },
 
         validarModelo: function(inputModelo) {
-
             if (inputModelo.getValue() == stringVazia) {
+                const validacaoModelo = "ValidacaoModelo"
+                const mensagemErroModelo = this.mensagemDeErroDosCampos(validacaoModelo)
                 inputModelo.setValueState(ValueStateErro);
-                inputModelo.setValueStateText(mensagemDeErroDosCampos);
+                inputModelo.setValueStateText(mensagemErroModelo);
                 return false;
             } else {
                 inputModelo.setValueState(ValueStatePadrao);
@@ -40,10 +40,11 @@ sap.ui.define([
         },
 
         validarCor: function(inputCor) {
-
             if (inputCor.getValue() == stringVazia) {
+                const valdacaoCor = "ValidacaoCor"
+                const mensagemErroCor = this.mensagemDeErroDosCampos(valdacaoCor)
                 inputCor.setValueState(ValueStateErro);
-                inputCor.setValueStateText(mensagemDeErroDosCampos);
+                inputCor.setValueStateText(mensagemErroCor);
                 return false;
             } else {
                 inputCor.setValueState(ValueStatePadrao);
@@ -52,10 +53,11 @@ sap.ui.define([
         },
 
         validarMemoria: function(inputMemoria) {
-
             if (inputMemoria.getValue() == stringVazia) {
+                const validacaoMemoria = "ValidacaoMemoria"
+                const mensagemErroMemoria = this.mensagemDeErroDosCampos(validacaoMemoria)
                 inputMemoria.setValueState(ValueStateErro);
-                inputMemoria.setValueStateText(mensagemDeErroDosCampos);
+                inputMemoria.setValueStateText(mensagemErroMemoria);
                 return false;
             } else {
                 inputMemoria.setValueState(ValueStatePadrao);
@@ -64,10 +66,11 @@ sap.ui.define([
         },
 
         validarData: function(inputAnoFabricado) {
-
             if (inputAnoFabricado.getValue() == stringVazia) {
+                const validacaoAnoFabricado ="ValidacaoAnoFabricacao"
+                const mensagemErroAnoFabricado = this.mensagemDeErroDosCampos(validacaoAnoFabricado)
                 inputAnoFabricado.setValueState(ValueStateErro);
-                inputAnoFabricado.setValueStateText(mensagemDeErroDosCampos);
+                inputAnoFabricado.setValueStateText(mensagemErroAnoFabricado);
                 return false;
             } else {
                 inputAnoFabricado.setValueState(ValueStatePadrao);
@@ -76,27 +79,24 @@ sap.ui.define([
         },
 
         ehCamposValidos: function(aoClicarEmSalvar) {
+           
             let resultadoValidacaoMarca =  this.validarMarca(aoClicarEmSalvar.marca)
             let resultadoValidacaoModelo = this.validarModelo(aoClicarEmSalvar.modelo)
             let resultadoValidacaoCor = this.validarCor(aoClicarEmSalvar.cor)
             let resultadoValidarMemoria = this.validarMemoria(aoClicarEmSalvar.memoria)
-            let resiçtadoValidarAnoFabricado = this.validarData(aoClicarEmSalvar.anoFabricado)
+            let resultadoValidarAnoFabricado = this.validarData(aoClicarEmSalvar.anoFabricado)
 
            return resultadoValidacaoMarca
            &&resultadoValidacaoModelo
            &&resultadoValidacaoCor
            &&resultadoValidarMemoria
-           &&resiçtadoValidarAnoFabricado
+           &&resultadoValidarAnoFabricado
         },
         
-        mensagemDeErroDosCampos : function (){            
-            
-       this.i18n.getText("ValidacaoMarca");
-       this.i18n.getText("ValidacaoModelo");
-       this.i18n.getText("ValidacaoCor");
-       this.i18n.getText("ValidacaoMemoria");
-       this.i18n.getText("ValidacaoAnoFabricacao");        
+        mensagemDeErroDosCampos : function(chaveMensagem) { 
+                 
+            return this.i18n.getText(chaveMensagem);
 
-        }
+        }      
     };
 });

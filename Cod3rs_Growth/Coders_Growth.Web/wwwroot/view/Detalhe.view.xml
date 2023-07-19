@@ -8,7 +8,7 @@
 
   <Page title="{i18n>TituloDeDetalhe}" showNavButton="true" navButtonPress="aoClicarEmVoltar" titleAlignment="Center">
         <headerContent>
-            <Button text="{i18n>BotaoEditar}" icon="sap-icon://edit" width="auto" type="Accept"/>
+            <Button text="{i18n>BotaoEditar}" icon="sap-icon://edit" width="auto" type="Accept" press="aoClicarEmEditar"/>
             <Button text="{i18n>BotaoRemover}" icon="sap-icon://delete" width="auto" type="Reject"/>
         </headerContent>
         <VBox class="sapUiSmallMargin">

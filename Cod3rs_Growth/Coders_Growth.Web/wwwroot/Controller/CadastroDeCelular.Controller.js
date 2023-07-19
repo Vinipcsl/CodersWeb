@@ -131,6 +131,17 @@ sap.ui.define([
 		aoInserirMemoria: function() {
 			let memoria = this.getView().byId(inputMemoria)
 			Formatter.formatarMemoria(memoria)
+		},
+		setarValorDoInput: function() {
+			const valorPadra = "";
+			const stringVazia= "";
+			let campos = ["marca","modelo","cor","memoria","anoFabricado"]
+
+			campos.forEach(res => {
+				campoDefinido = this.getView().byId(res)
+				campoDefinido.setValueState(valorPadra)
+				campoDefinido.setValue(stringVazia)
+			})
 		}    
     });
 });

@@ -6,6 +6,8 @@ sap.ui.define([
 	const uri="https://localhost:59606/api/celular/";
 	const caminhoControllerDetalhe="sap.ui.demo.viniCelulares.controller.Detalhe";
 	const lista="listaDeCelulares";
+	const celular="celulares";
+	const rotaCadastroDeCelular = "edicaoDeCelular"
 	
 
 	return Controller.extend(caminhoControllerDetalhe, {	
@@ -22,6 +24,14 @@ sap.ui.define([
 			const argumento= "arguments";
             var Id = oEvent.getParameter(argumento).id
             this._detalhes(Id);
+		},
+
+		aoClicarEmEditar: function(){
+			debugger
+			let oRouter = this.getOwnerComponent().getRouter();
+			const idCelular = this.pegarIdCelular();
+
+			oRouter.navTo(rotaCadastroDeCelular, idCelular)
 		},
 
 		aoClicarEmVoltar: function () {			
@@ -44,6 +54,10 @@ sap.ui.define([
                   console.error(error);
                }); 			
         },
-
+		pegarIdCelular : function(){
+			debugger
+			console.log(celular)
+			return this.getView().getModel(celular).getData()
+		}
 	});
 });

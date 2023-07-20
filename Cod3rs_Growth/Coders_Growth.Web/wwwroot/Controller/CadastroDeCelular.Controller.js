@@ -17,7 +17,10 @@ sap.ui.define([
 	const inputModelo ="modelo";
 	const inputCor ="cor";
 	const inputMemoria ="memoria";
-	const inputAnoFabricado ="dataDeFabricacao";	
+	const inputAnoFabricado ="dataDeFabricacao";
+	const rotaCadastroDeCelular = "cadastroDeCelular";
+	const rotaEditarCelular = "edicaoDeCelular";
+
 
 	return Controller.extend(caminhoControllerCadastroDeCelular, {	
 
@@ -28,16 +31,27 @@ sap.ui.define([
 			Validacao.setI18Nmodel(oBundle);
 
 			let oRouter = this.getOwnerComponent().getRouter();
-			oRouter.attachRoutePatternMatched(this._aoCoincidirRota, this);
+			oRouter.getRoute(rotaCadastroDeCelular).attachPatternMatched(this._aoCoincidirRota, this);
+			oRouter.getRoute(rotaEditarCelular).attachPatternMatched(this._aoCoincidirRotaEditar, this);
 		},
 
 		_aoCoincidirRota: function()
 		{
 			this.setarModeloCelular();
 		},
+		
+		_aoCoincidirRotaEditar: function(oEvent)
+		{
+			this._modeloCelulares();
+			let Id = oEvent.getParameter("arguments").id
+			this._id = Id
+			this._carregarCelular(Id)
+			
+		},
 
 		setarModeloCelular: function()
-		{
+		{	
+
 			const stringVazia = "";
 
 			let celular= {
@@ -49,6 +63,18 @@ sap.ui.define([
 				anoFabricado: stringVazia
 			}
 			this.getView().setModel(new JSONModel(celular),modeloCelular);
+		},
+
+		_carregarCelular: function (idCelular)
+		{
+			fetch(`${uri}${idCelular}`)
+               .then(function(response){
+                  return response.json();
+               })
+			   .then(json =>{
+				var oModel = new JSONModel(json);
+				this.getView().setModel(oModel, modeloCelular)
+			   })
 		},
 
 		aoClicarEmSalvar: function()
@@ -66,13 +92,17 @@ sap.ui.define([
 					memoria,
 					anoFabricado
 				}
-				
+				debugger
 				if (Validacao.ehCamposValidos(objetoCamposAValidar))
 				{
-					const Celulares = "celulares"
-					let celular = this.getView().getModel(Celulares).getData();
-					console.log(celular)				
-					 this._salvarCelular(celular)
+					let celular = this._modeloCelulares().getData();
+
+					if(celular.id){
+						this._editarCelular(celular)
+					}
+					else{
+						this._salvarCelular(celular)
+					}
 				}	
 				else{
 					const mensagemDeFalhaAoCadastrar = "ValidacaoDeFalha";
@@ -95,8 +125,7 @@ sap.ui.define([
 		},
 
 		_salvarCelular: function(celular)
-		{
-			console.log(celular)
+		{			
 			const rotaDetalhe = "detalhe";
 			fetch(uri,{
 				method:"POST",
@@ -107,10 +136,26 @@ sap.ui.define([
 				body:JSON.stringify(celular)
 			})
 			.then((response)=> response.json())
-			.then(novoCelular =>{
-				console.log(celular)
+			.then(novoCelular =>{				
 				this._navegar(rotaDetalhe, novoCelular.id)
 			} )
+		},
+
+		_editarCelular: function(celular)
+		{
+			const rotaDetalhe = "detalhe";
+			fetch(`${uri}/${celular.id}`, {
+				method:"PUT",
+				mode: "cors",
+				headers:{
+					"Content-Type": "application/json",
+				},
+				body:JSON.stringify(celular)
+			})
+			.then((response) => response.json())
+			.then(celularEditado =>{
+				this._navegar(rotaDetalhe, celularEditado.id)
+			})
 		},
 
 		_navegar: function(lista, id){
@@ -142,6 +187,7 @@ sap.ui.define([
 				campoDefinido.setValueState(valorPadra)
 				campoDefinido.setValue(stringVazia)
 			})
-		}    
+		},
+
     });
 });

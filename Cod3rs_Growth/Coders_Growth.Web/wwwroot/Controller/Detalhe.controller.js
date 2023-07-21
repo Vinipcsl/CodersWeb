@@ -8,10 +8,7 @@ sap.ui.define([
 	const lista="listaDeCelulares";
 	const rotaCadastroDeCelular = "edicaoDeCelular"
 	
-
-
 	return Controller.extend(caminhoControllerDetalhe, {	
-		
 		_id: null,
 		
 		onInit: function () {
@@ -29,7 +26,6 @@ sap.ui.define([
 		},
 
 		aoClicarEmEditar: function(){
-			debugger
 			let oRouter = this.getOwnerComponent().getRouter();
 			let id = this._id
 			oRouter.navTo(rotaCadastroDeCelular, {id})
@@ -47,13 +43,13 @@ sap.ui.define([
             fetch(`${uri}${id}`)
                .then(function(response){
                   return response.json();
-               })
-               .then(function (data){
+            })
+            .then(function (data){
                   tela.setModel(new JSONModel(data),celular)
-               })
-               .catch(function (error){
+            })
+            .catch(function (error){
                   console.error(error);
-               }); 			
+            }); 			
         },	
 	});
 });

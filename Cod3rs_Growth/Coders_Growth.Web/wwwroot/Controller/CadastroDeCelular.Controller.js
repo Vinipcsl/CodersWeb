@@ -144,7 +144,7 @@ sap.ui.define([
 		_editarCelular: function(celular)
 		{
 			const rotaDetalhe = "detalhe";
-			fetch(`${uri}/${celular.id}`, {
+			fetch(`${uri}${celular.id}`, {
 				method:"PUT",
 				mode: "cors",
 				headers:{

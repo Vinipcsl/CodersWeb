@@ -67,6 +67,11 @@
 					"pattern": "cadastroDeCelular",
 					"name": "cadastroDeCelular",
 					"target": "cadastroDeCelular"
+				},
+				{
+					"pattern": "edicaoDeCelular/{id}",
+					"name": "edicaoDeCelular",
+					"target": "cadastroDeCelular"
 				}
 			],
 			"targets": {
@@ -79,6 +84,10 @@
 					"name": "Detalhe"
 				},
 				"cadastroDeCelular":{
+					"id": "cadastroDeCelular",
+					"name": "CadastroDeCelular"
+				},
+				"edicaoDeCelular":{
 					"id": "cadastroDeCelular",
 					"name": "CadastroDeCelular"
 				}

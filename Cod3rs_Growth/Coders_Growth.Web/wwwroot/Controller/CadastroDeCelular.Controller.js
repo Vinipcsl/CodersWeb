@@ -8,7 +8,6 @@ sap.ui.define([
 ], function (Controller, JSONModel,Validacao,Formatter,MessageBox) {	
 	"use strict";
 
-
 	const uri="https://localhost:59606/api/celular/";
 	const caminhoControllerCadastroDeCelular="sap.ui.demo.viniCelulares.controller.CadastroDeCelular";
 	const lista="listaDeCelulares";
@@ -17,7 +16,11 @@ sap.ui.define([
 	const inputModelo ="modelo";
 	const inputCor ="cor";
 	const inputMemoria ="memoria";
-	const inputAnoFabricado ="dataDeFabricacao";	
+	const inputAnoFabricado ="dataDeFabricacao";
+	const rotaCadastroDeCelular = "cadastroDeCelular";
+	const rotaEditarCelular = "edicaoDeCelular";
+	const rotaDetalhe = "detalhe";
+	const valorPadrao = "";
 
 	return Controller.extend(caminhoControllerCadastroDeCelular, {	
 
@@ -28,27 +31,49 @@ sap.ui.define([
 			Validacao.setI18Nmodel(oBundle);
 
 			let oRouter = this.getOwnerComponent().getRouter();
-			oRouter.attachRoutePatternMatched(this._aoCoincidirRota, this);
+			oRouter.getRoute(rotaCadastroDeCelular).attachPatternMatched(this._aoCoincidirRota, this);
+			oRouter.getRoute(rotaEditarCelular).attachPatternMatched(this._aoCoincidirRotaEditar, this);
 		},
 
 		_aoCoincidirRota: function()
 		{
-			this.setarModeloCelular();
+			this._setarModeloCelular();
+		},
+		
+		_aoCoincidirRotaEditar: function(oEvent)
+		{
+			this._modeloCelulares();
+			let id = oEvent.getParameter("arguments").id
+			this._carregarCelular(id)
 		},
 
-		setarModeloCelular: function()
-		{
-			const stringVazia = "";
-
-			let celular= {
-				id: 0,
-				marca: stringVazia,
-				modelo:stringVazia,
-				cor: stringVazia,
-				memoria: stringVazia,
-				anoFabricado: stringVazia
-			}
+		_setarModeloCelular: function()
+		{	
+			let celular= this._retornarObjetoCelular()
 			this.getView().setModel(new JSONModel(celular),modeloCelular);
+		},
+		
+		_retornarObjetoCelular: function() {
+			return {
+				id: 0,
+				marca: valorPadrao,
+				modelo: valorPadrao,
+				cor: valorPadrao,
+				memoria: valorPadrao,
+				anoFabricado: valorPadrao
+			};
+		},
+
+		_carregarCelular: function (idCelular)
+		{
+			fetch(`${uri}${idCelular}`)
+			.then(function(response){
+				return response.json();
+			})
+			.then(json =>{
+				var oModel = new JSONModel(json);
+				this.getView().setModel(oModel, modeloCelular)
+			})
 		},
 
 		aoClicarEmSalvar: function()
@@ -60,34 +85,38 @@ sap.ui.define([
 			let anoFabricado = this.getView().byId(inputAnoFabricado)
 						
 			let objetoCamposAValidar = {
-					marca,
-					modelo,
-					cor,
-					memoria,
-					anoFabricado
-				}
-				
-				if (Validacao.ehCamposValidos(objetoCamposAValidar))
-				{
-					const Celulares = "celulares"
-					let celular = this.getView().getModel(Celulares).getData();
-					console.log(celular)				
-					 this._salvarCelular(celular)
-				}	
-				else{
-					const mensagemDeFalhaAoCadastrar = "ValidacaoDeFalha";
+				marca,
+				modelo,
+				cor,
+				memoria,
+				anoFabricado
+			}
+			
+			if (Validacao.ehCamposValidos(objetoCamposAValidar))
+			{
+				let celular = this._modeloCelulares().getData();
 
-				MessageBox.error(Validacao.mensagemDeErroDosCampos(mensagemDeFalhaAoCadastrar));
+				if(celular.id){
+					this._editarCelular(celular)
 				}
+				else{
+					this._salvarCelular(celular)
+				}
+			}	
+			else{
+				const mensagemDeFalhaAoCadastrar = "ValidacaoDeFalha";
+				MessageBox.error(Validacao.mensagemDeErroDosCampos(mensagemDeFalhaAoCadastrar));
+			}
 		},
 		
 		_modeloCelulares: function(modelo){
-				const nomeModelo = "celulares";
-				if (modelo){
+			const nomeModelo = "celulares";
+			if (modelo){
 				return this.getView().setModel(modelo, nomeModelo);
-				} else{
+			} 
+			else{
 				return this.getView().getModel(nomeModelo);
-				}
+			}
 		},
 				
 		aoClicarEmCancelar: function () {
@@ -95,9 +124,7 @@ sap.ui.define([
 		},
 
 		_salvarCelular: function(celular)
-		{
-			console.log(celular)
-			const rotaDetalhe = "detalhe";
+		{			
 			fetch(uri,{
 				method:"POST",
 				mode: "cors",
@@ -107,10 +134,25 @@ sap.ui.define([
 				body:JSON.stringify(celular)
 			})
 			.then((response)=> response.json())
-			.then(novoCelular =>{
-				console.log(celular)
+			.then(novoCelular =>{				
 				this._navegar(rotaDetalhe, novoCelular.id)
 			} )
+		},
+
+		_editarCelular: function(celular)
+		{
+			fetch(`${uri}${celular.id}`, {
+				method:"PUT",
+				mode: "cors",
+				headers:{
+					"Content-Type": "application/json",
+				},
+				body:JSON.stringify(celular)
+			})
+			.then((response) => response.json())
+			.then(celularEditado =>{
+				this._navegar(rotaDetalhe, celularEditado.id)
+			})
 		},
 
 		_navegar: function(lista, id){
@@ -119,7 +161,6 @@ sap.ui.define([
         },
     
         aoClicarEmVoltar: function () {
-			let oRouter = this.getOwnerComponent().getRouter();
             this._navegar(lista);
 		},
 		
@@ -131,6 +172,16 @@ sap.ui.define([
 		aoInserirMemoria: function() {
 			let memoria = this.getView().byId(inputMemoria)
 			Formatter.formatarMemoria(memoria)
-		}    
+		},
+
+		setarValorDoInput: function() {
+			let campos = ["marca","modelo","cor","memoria","anoFabricado"]
+
+			campos.forEach(res => {
+				campoDefinido = this.getView().byId(res)
+				campoDefinido.setValueState(valorPadrao)
+				campoDefinido.setValue(valorPadrao)
+			})
+		},
     });
 });

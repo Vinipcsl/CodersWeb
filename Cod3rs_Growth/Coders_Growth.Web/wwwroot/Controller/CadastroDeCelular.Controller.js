@@ -51,7 +51,6 @@ sap.ui.define([
 
 		setarModeloCelular: function()
 		{	
-
 			const stringVazia = "";
 
 			let celular= {

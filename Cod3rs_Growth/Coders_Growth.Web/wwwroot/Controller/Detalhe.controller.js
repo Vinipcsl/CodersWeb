@@ -1,12 +1,12 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/model/json/JSONModel",
-	"sap/m/Dialog",
-	"sap/m/Button",
-	"sap/m/library",
-	"sap/m/Text"
+	"sap/m/MessageBox",
+	"sap/m/MessageToast","sap/m/library",
 
-], function (Controller, JSONModel, Dialog, Button, mobileLibrary, Text) {	
+	
+
+], function (Controller, JSONModel,MessageBox, MessageToast, mobileLibrary) {	
 	"use strict";
 	const uri="https://localhost:59606/api/celular/";
 	const caminhoControllerDetalhe="sap.ui.demo.viniCelulares.controller.Detalhe";
@@ -17,6 +17,10 @@ sap.ui.define([
 	
 	return Controller.extend(caminhoControllerDetalhe, {	
 		_id: null,
+		i18n : null,
+        setI18Nmodel :function(_i18n){
+            this.i18n=_i18n;
+        },
 		
 		onInit: function () {
 			const detalhe="detalhe";
@@ -43,32 +47,33 @@ sap.ui.define([
 		},
 
 		aoClicarEmRemover: function(){
+			
+			const mensagemAviso = "Cê sabe que vai apaga né? Se cê apagar apagô!";
+			const mensagemErro="O celular selecionado não existe";
+			const mensagemApagado="O celular foi removido com sucesso!";
+			const celular = this.getView().getModel('celular').getData();
+			const id = celular.id;
 
-			if(!this.excluirDialog){debugger
-				this.excluirDialog = new Dialog({
-				type: DialogType.Message,
-				title:"Prenstenção",
-				content: new Text({ text: "Cê sabe que vai apaga né? Se cê apagar apagô!"}),
-				beginButton: new Button({
-					type: ButtonType.Emphasized,
-					text: "Excluir",
-					press: function() {
-						debugger
-						this._removerCelular();
-						this.excluirDialog.close()
-						this._navegar();
-				}.bind(this)
-				}),
-				endButton: new Button({
-					text: "Cancelar",
-					press: function() {
-						this.excluirDialog.close()
-						}.bind(this)
-					})
-				});
-			}
-			this.excluirDialog.open();
-		
+				if(id){debugger
+					MessageBox.warning(mensagemAviso,
+					{
+						emphasizedAction: MessageBox.Action.YES,
+						initialFocus: MessageBox.Action.NO,
+						actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+						onClose:(acao) => {
+							debugger
+							
+							if(acao == MessageBox.Action.YES){
+							this._removerCelular();
+							MessageToast.show(mensagemApagado);
+							this._navegar()
+							}
+							else{
+								MessageToast.show(mensagemErro);
+							}
+						},
+					});
+				}			
 		},
 
 		_removerCelular: function(){
@@ -96,9 +101,10 @@ sap.ui.define([
                   console.error(error);
             }); 			
         },	
+
 		_navegar: function(){
             let oRouter = this.getOwnerComponent().getRouter();
             oRouter.navTo(lista);
-        },
+        },	
 	});
 });

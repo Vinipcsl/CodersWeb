@@ -5,7 +5,7 @@ sap.ui.define([
 	"../model/Formatter",
 	"sap/m/MessageBox"
 
-], function (Controller, JSONModel,Validacao,Formatter,MessageBox) {	
+], function (Controller, JSONModel, Validacao, Formatter, MessageBox) {	
 	"use strict";
 
 	const uri="https://localhost:59606/api/celular/";

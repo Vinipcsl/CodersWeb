@@ -2,30 +2,24 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageBox",
-	"sap/m/MessageToast","sap/m/library",
-
+	"sap/m/MessageToast",
+	"sap/m/library",
 	
-
-], function (Controller, JSONModel,MessageBox, MessageToast, mobileLibrary) {	
+], function (Controller, JSONModel,MessageBox) {	
 	"use strict";
 	const uri="https://localhost:59606/api/celular/";
 	const caminhoControllerDetalhe="sap.ui.demo.viniCelulares.controller.Detalhe";
 	const lista="listaDeCelulares";
 	const rotaCadastroDeCelular = "edicaoDeCelular"
-	var ButtonType = mobileLibrary.ButtonType;
-	var DialogType = mobileLibrary.DialogType;
-	
+	let I18n = null;
+	const modelI18n = "i18n";
+
 	return Controller.extend(caminhoControllerDetalhe, {	
-		_id: null,
-		i18n : null,
-        setI18Nmodel :function(_i18n){
-            this.i18n=_i18n;
-        },
-		
 		onInit: function () {
 			const detalhe="detalhe";
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute(detalhe).attachPatternMatched(this._aoCoincidirRota, this);
+			I18n = this.getOwnerComponent().getModel(modelI18n).getResourceBundle();
 		},
 
 		_aoCoincidirRota: function (oEvent) {
@@ -47,33 +41,38 @@ sap.ui.define([
 		},
 
 		aoClicarEmRemover: function(){
-			
-			const mensagemAviso = "Cê sabe que vai apaga né? Se cê apagar apagô!";
-			const mensagemErro="O celular selecionado não existe";
-			const mensagemApagado="O celular foi removido com sucesso!";
+			const mensagemAviso = I18n.getText("MensagemAviso");
+			const mensagemApagado = I18n.getText("MensagemApagado");
+			const mensagemCancelado = I18n.getText("MensagemCancelado")
 			const celular = this.getView().getModel('celular').getData();
 			const id = celular.id;
 
-				if(id){debugger
-					MessageBox.warning(mensagemAviso,
-					{
-						emphasizedAction: MessageBox.Action.YES,
-						initialFocus: MessageBox.Action.NO,
-						actions: [MessageBox.Action.YES, MessageBox.Action.NO],
-						onClose:(acao) => {
-							debugger
-							
-							if(acao == MessageBox.Action.YES){
-							this._removerCelular();
-							MessageToast.show(mensagemApagado);
-							this._navegar()
-							}
-							else{
-								MessageToast.show(mensagemErro);
-							}
-						},
-					});
-				}			
+			if(id){
+				MessageBox.warning(mensagemAviso,
+				{
+					emphasizedAction: MessageBox.Action.YES,
+					initialFocus: MessageBox.Action.NO,
+					actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+					onClose:(acao) => {
+						if(acao == MessageBox.Action.YES){
+						this._removerCelular();
+						MessageBox.information(mensagemApagado,
+							{
+								emphasizedAction: MessageBox.Action.Ok,
+								actions: [MessageBox.Action.OK],
+								onClose:(acao) =>{
+									if (acao == MessageBox.Action.OK){
+										this._navegar();
+									}
+								}
+							});							
+						}
+						else{
+							MessageBox.error(mensagemCancelado);
+						}
+					},
+				});
+			}			
 		},
 
 		_removerCelular: function(){
@@ -83,13 +82,12 @@ sap.ui.define([
 				method:'DELETE',
 				headers:{'Content-Type':'application/json'},
 			})
-		
 		},
 
 		_detalhes : function (id){
 			const celular="celular";
-	
             let tela = this.getView();
+			
             fetch(`${uri}${id}`)
                .then(function(response){
                   return response.json();

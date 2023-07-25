@@ -1,24 +1,25 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
-	"sap/ui/model/json/JSONModel"
-], function (Controller, JSONModel) {	
+	"sap/ui/model/json/JSONModel",
+	"sap/m/MessageBox",
+	"sap/m/MessageToast",
+	"sap/m/library",
+	
+], function (Controller, JSONModel,MessageBox) {	
 	"use strict";
 	const uri="https://localhost:59606/api/celular/";
 	const caminhoControllerDetalhe="sap.ui.demo.viniCelulares.controller.Detalhe";
 	const lista="listaDeCelulares";
 	const rotaCadastroDeCelular = "edicaoDeCelular"
-	
-
+	let I18n = null;
+	const modelI18n = "i18n";
 
 	return Controller.extend(caminhoControllerDetalhe, {	
-		
-		_id: null,
-		
 		onInit: function () {
 			const detalhe="detalhe";
-
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute(detalhe).attachPatternMatched(this._aoCoincidirRota, this);
+			I18n = this.getOwnerComponent().getModel(modelI18n).getResourceBundle();
 		},
 
 		_aoCoincidirRota: function (oEvent) {
@@ -29,7 +30,6 @@ sap.ui.define([
 		},
 
 		aoClicarEmEditar: function(){
-			debugger
 			let oRouter = this.getOwnerComponent().getRouter();
 			let id = this._id
 			oRouter.navTo(rotaCadastroDeCelular, {id})
@@ -40,20 +40,69 @@ sap.ui.define([
             oRouter.navTo(lista, {}, true);
 		},
 
+		aoClicarEmRemover: function(){
+			const mensagemAviso = I18n.getText("MensagemAviso");
+			const mensagemApagado = I18n.getText("MensagemApagado");
+			const mensagemCancelado = I18n.getText("MensagemCancelado")
+			const celular = this.getView().getModel('celular').getData();
+			const id = celular.id;
+
+			if(id){
+				MessageBox.warning(mensagemAviso,
+				{
+					emphasizedAction: MessageBox.Action.YES,
+					initialFocus: MessageBox.Action.NO,
+					actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+					onClose:(acao) => {
+						if(acao == MessageBox.Action.YES){
+						this._removerCelular();
+						MessageBox.information(mensagemApagado,
+							{
+								emphasizedAction: MessageBox.Action.Ok,
+								actions: [MessageBox.Action.OK],
+								onClose:(acao) =>{
+									if (acao == MessageBox.Action.OK){
+										this._navegar();
+									}
+								}
+							});							
+						}
+						else{
+							MessageBox.error(mensagemCancelado);
+						}
+					},
+				});
+			}			
+		},
+
+		_removerCelular: function(){
+			const celular = this.getView().getModel('celular').getData();
+			const id = celular.id
+			fetch (`${uri}${id}`, {
+				method:'DELETE',
+				headers:{'Content-Type':'application/json'},
+			})
+		},
+
 		_detalhes : function (id){
 			const celular="celular";
-	
             let tela = this.getView();
+			
             fetch(`${uri}${id}`)
                .then(function(response){
                   return response.json();
-               })
-               .then(function (data){
+            })
+            .then(function (data){
                   tela.setModel(new JSONModel(data),celular)
-               })
-               .catch(function (error){
+            })
+            .catch(function (error){
                   console.error(error);
-               }); 			
+            }); 			
+        },	
+
+		_navegar: function(){
+            let oRouter = this.getOwnerComponent().getRouter();
+            oRouter.navTo(lista);
         },	
 	});
 });

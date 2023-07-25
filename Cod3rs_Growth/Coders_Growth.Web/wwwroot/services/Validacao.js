@@ -8,10 +8,10 @@ sap.ui.define([
     const ValueStatePadrao = coreLibrary.ValueState.None;
    
     return {
-         i18n : null,
-         setI18Nmodel :function(_i18n){
+        i18n : null,
+        setI18Nmodel :function(_i18n){
             this.i18n=_i18n;
-            },
+        },
 
         validarMarca: function(inputMarca) {
             if (inputMarca.getValue() == stringVazia) {
@@ -80,11 +80,11 @@ sap.ui.define([
 
         ehCamposValidos: function(aoClicarEmSalvar) {
            
-            let resultadoValidacaoMarca =  this.validarMarca(aoClicarEmSalvar.marca)
-            let resultadoValidacaoModelo = this.validarModelo(aoClicarEmSalvar.modelo)
-            let resultadoValidacaoCor = this.validarCor(aoClicarEmSalvar.cor)
-            let resultadoValidarMemoria = this.validarMemoria(aoClicarEmSalvar.memoria)
-            let resultadoValidarAnoFabricado = this.validarData(aoClicarEmSalvar.anoFabricado)
+           let resultadoValidacaoMarca =  this.validarMarca(aoClicarEmSalvar.marca)
+           let resultadoValidacaoModelo = this.validarModelo(aoClicarEmSalvar.modelo)
+           let resultadoValidacaoCor = this.validarCor(aoClicarEmSalvar.cor)
+           let resultadoValidarMemoria = this.validarMemoria(aoClicarEmSalvar.memoria)
+           let resultadoValidarAnoFabricado = this.validarData(aoClicarEmSalvar.anoFabricado)
 
            return resultadoValidacaoMarca
            &&resultadoValidacaoModelo

@@ -4,8 +4,9 @@ sap.ui.define([
 	"sap/m/MessageBox",
 	"sap/m/MessageToast",
 	"sap/m/library",
+	"../services/RepositorioCelular"
 	
-], function (Controller, JSONModel,MessageBox) {	
+], function (Controller, JSONModel,MessageBox, RepositorioCelular) {	
 	"use strict";
 	const uri="https://localhost:59606/api/celular/";
 	const caminhoControllerDetalhe="sap.ui.demo.viniCelulares.controller.Detalhe";
@@ -78,16 +79,13 @@ sap.ui.define([
 		_removerCelular: function(){
 			const celular = this.getView().getModel('celular').getData();
 			const id = celular.id
-			fetch (`${uri}${id}`, {
-				method:'DELETE',
-				headers:{'Content-Type':'application/json'},
-			})
+			RepositorioCelular.Remover(id)
 		},
 
 		_detalhes : function (id){
 			const celular="celular";
             let tela = this.getView();
-			
+
             fetch(`${uri}${id}`)
                .then(function(response){
                   return response.json();

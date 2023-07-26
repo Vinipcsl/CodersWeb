@@ -3,9 +3,10 @@ sap.ui.define([
 	"sap/ui/model/json/JSONModel",
 	"../services/Validacao",
 	"../model/Formatter",
-	"sap/m/MessageBox"
+	"sap/m/MessageBox",
+	"../services/RepositorioCelular"
 
-], function (Controller, JSONModel, Validacao, Formatter, MessageBox) {	
+], function (Controller, JSONModel, Validacao, Formatter, MessageBox, RepositorioCelular) {	
 	"use strict";
 
 	const uri="https://localhost:59606/api/celular/";
@@ -64,12 +65,9 @@ sap.ui.define([
 			};
 		},
 
-		_carregarCelular: function (idCelular)
+		_carregarCelular: async function (idCelular)
 		{
-			fetch(`${uri}${idCelular}`)
-			.then(function(response){
-				return response.json();
-			})
+			let celular = await RepositorioCelular.ObterPorId(idCelular)
 			.then(json =>{
 				var oModel = new JSONModel(json);
 				this.getView().setModel(oModel, modeloCelular)
@@ -77,7 +75,8 @@ sap.ui.define([
 		},
 
 		aoClicarEmSalvar: function()
-		{			
+		{	
+			debugger		
 			let marca = this.getView().byId(inputMarca)
 			let modelo = this.getView().byId(inputModelo)
 			let cor =  this.getView().byId(inputCor)
@@ -123,36 +122,23 @@ sap.ui.define([
 			this._navegar(lista);
 		},
 
-		_salvarCelular: function(celular)
+		_salvarCelular: async function(celular)
 		{			
-			fetch(uri,{
-				method:"POST",
-				mode: "cors",
-				headers:{
-					"Content-Type": "application/json",
-				},
-				body:JSON.stringify(celular)
-			})
+			RepositorioCelular.Adicionar(celular)
 			.then((response)=> response.json())
 			.then(novoCelular =>{				
 				this._navegar(rotaDetalhe, novoCelular.id)
 			} )
 		},
 
-		_editarCelular: function(celular)
+		_editarCelular:function(celular)
 		{
-			fetch(`${uri}${celular.id}`, {
-				method:"PUT",
-				mode: "cors",
-				headers:{
-					"Content-Type": "application/json",
-				},
-				body:JSON.stringify(celular)
-			})
-			.then((response) => response.json())
-			.then(celularEditado =>{
-				this._navegar(rotaDetalhe, celularEditado.id)
-			})
+			debugger
+			RepositorioCelular.Editar(celular)
+				.then(response => response.json())
+				.then(celularEditado =>{				
+					this._navegar(rotaDetalhe, celularEditado.id)
+				})
 		},
 
 		_navegar: function(lista, id){

@@ -3,9 +3,10 @@ sap.ui.define([
 	"sap/ui/model/json/JSONModel",
     "sap/m/MessageToast",
 	"sap/ui/model/Filter",
-	"sap/ui/model/FilterOperator"
+	"sap/ui/model/FilterOperator",
+	"../services/RepositorioCelular"
 	
-], function(Controller, JSONModel,MessageToast, Filter, FilterOperator) {
+], function(Controller, JSONModel,MessageToast, Filter, FilterOperator, RepositorioCelular) {
 	"use strict";
 
 	const uri="https://localhost:59606/api/celular/";
@@ -24,18 +25,12 @@ sap.ui.define([
 		 },
 		_aoCoincidirRota: function()
 		{
-			
 			let tela = this.getView();
-			fetch(uri)
-			   .then(response => {
-				  return response.json();
-			   })
-			   .then(data => {
+			 RepositorioCelular.ObterTodos()
+				.then(response => response.json())
+				.then(data => {
 				  tela.setModel(new JSONModel(data),celulares);
 			   })
-			   .catch(function (error){
-				  console.error(error);
-			   });       
 		},
 		 
 		aoClicarProcurarCelular : function(oEvent){
@@ -60,10 +55,8 @@ sap.ui.define([
 		},
 
 		aoClicarAdicionar: function () {
-			const adicionar= "adicionarCelular";
 			let oRouter = this.getOwnerComponent().getRouter()
 			oRouter.navTo("cadastroDeCelular")
-			
 		}
 	});
 });

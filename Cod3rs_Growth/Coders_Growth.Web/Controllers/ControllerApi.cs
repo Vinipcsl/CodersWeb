@@ -72,7 +72,7 @@ namespace Coders_Growth.Web.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult AtualizarCelular([FromBody, Required()] Celular celular, int id)
+        public IActionResult AtualizarCelular([FromBody, Required()] Celular celular)
         {
             try
             {
@@ -80,9 +80,9 @@ namespace Coders_Growth.Web.Controllers
                 {
                     throw new Exception("Este celular não existe");
                 }
-                celular.Id = id;
+               // celular.Id = id;
                 _validarCampos.ValidarCampos(celular, _repositorio);
-                _repositorio.Atualizar(id, celular);
+                _repositorio.Atualizar(celular.Id, celular);
                 return Ok(celular);
             }
             catch (Exception ex)

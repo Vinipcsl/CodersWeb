@@ -133,7 +133,6 @@ sap.ui.define([
 
 		_editarCelular:function(celular)
 		{
-			debugger
 			RepositorioCelular.Editar(celular)
 				.then(response => response.json())
 				.then(celularEditado =>{				

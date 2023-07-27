@@ -2,9 +2,8 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageBox",
-	"sap/m/MessageToast",
+	"../services/RepositorioCelular",
 	"sap/m/library",
-	"../services/RepositorioCelular"
 	
 ], function (Controller, JSONModel,MessageBox, RepositorioCelular) {	
 	"use strict";
@@ -77,9 +76,10 @@ sap.ui.define([
 		},
 
 		_removerCelular: function(){
-			const celular = this.getView().getModel('celular').getData();
-			const id = celular.id
-			RepositorioCelular.Remover(id)
+			debugger
+			let celular = this.getView().getModel('celular').getData().id;
+			//let id = celular.id;
+			RepositorioCelular.Excluir(celular);
 		},
 
 		_detalhes : function (id){

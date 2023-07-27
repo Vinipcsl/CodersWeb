@@ -5,6 +5,7 @@ sap.ui.define([
 	"../model/Formatter",
 	"sap/m/MessageBox",
 	"../services/RepositorioCelular"
+	
 
 ], function (Controller, JSONModel, Validacao, Formatter, MessageBox, RepositorioCelular) {	
 	"use strict";

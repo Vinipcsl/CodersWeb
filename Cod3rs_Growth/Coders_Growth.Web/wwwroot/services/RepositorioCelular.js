@@ -41,7 +41,6 @@ sap.ui.define([
 
         Excluir: function(id) 
         {
-            debugger
             return fetch (`${uri}${id}`, {
 				method:'DELETE',
 				headers:{'Content-Type':'application/json'},

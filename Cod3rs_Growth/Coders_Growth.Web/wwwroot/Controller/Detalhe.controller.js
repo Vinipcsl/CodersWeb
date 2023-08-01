@@ -2,10 +2,12 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageBox",
+	"../services/Mensagens",
 	"../services/RepositorioCelular",
-	"sap/m/library",
+	"sap/ui/model/resource/ResourceModel",
 	
-], function (Controller, JSONModel,MessageBox, RepositorioCelular) {	
+	
+], function (Controller, JSONModel,MessageBox, Mensagens, RepositorioCelular, ResourceModel ) {	
 	"use strict";
 	const uri="https://localhost:59606/api/celular/";
 	const caminhoControllerDetalhe="sap.ui.demo.viniCelulares.controller.Detalhe";
@@ -47,38 +49,12 @@ sap.ui.define([
 			const celular = this.getView().getModel('celular').getData();
 			const id = celular.id;
 
-			if(id){
-				MessageBox.warning(mensagemAviso,
-				{
-					emphasizedAction: MessageBox.Action.YES,
-					initialFocus: MessageBox.Action.NO,
-					actions: [MessageBox.Action.YES, MessageBox.Action.NO],
-					onClose:(acao) => {
-						if(acao == MessageBox.Action.YES){
-						this._removerCelular();
-						MessageBox.information(mensagemApagado,
-							{
-								emphasizedAction: MessageBox.Action.Ok,
-								actions: [MessageBox.Action.OK],
-								onClose:(acao) =>{
-									if (acao == MessageBox.Action.OK){
-										this._navegar();
-									}
-								}
-							});							
-						}
-						else{
-							MessageBox.error(mensagemCancelado);
-						}
-					},
-				});
-			}			
+			Mensagens.confirmar(this.mensagemI18n(mensagemApagado), this._removerCelular(celular))
+						
 		},
 
 		_removerCelular: function(){
-			debugger
 			let celular = this.getView().getModel('celular').getData().id;
-			//let id = celular.id;
 			RepositorioCelular.Excluir(celular);
 		},
 
@@ -102,5 +78,14 @@ sap.ui.define([
             let oRouter = this.getOwnerComponent().getRouter();
             oRouter.navTo(lista);
         },	
+
+		mensagemI18n: function (texto) {
+            const i18n = new ResourceModel({
+                bundleName: "sap.ui.demo.viniCelulares.i18n.i18n",
+                bundleUrl: "../i18n/i18n.properties"
+            }).getResourceBundle();
+
+            return i18n.getText(texto);
+        },
 	});
 });

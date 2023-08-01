@@ -1,12 +1,11 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/model/json/JSONModel",
-    "sap/m/MessageToast",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
 	"../services/RepositorioCelular"
 	
-], function(Controller, JSONModel,MessageToast, Filter, FilterOperator, RepositorioCelular) {
+], function(Controller, JSONModel, Filter, FilterOperator, RepositorioCelular) {
 	"use strict";
 
 	const uri="https://localhost:59606/api/celular/";

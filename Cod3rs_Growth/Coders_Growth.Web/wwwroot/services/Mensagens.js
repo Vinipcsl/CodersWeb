@@ -1,35 +1,37 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller",
     "sap/m/MessageBox",
 
-], function (
-    Controller,
-    MessageBox,
-) {
-    const mensagemAviso = I18n.getText("MensagemAviso");
-    const mensagemApagado = I18n.getText("MensagemApagado");
-    const mensagemCancelado = I18n.getText("MensagemCancelado")
+], function (MessageBox,) 
+{
     "use strict";
 
-    return Controller.extend("sap.ui.demo.viniCelulares.services.Mensagens", {
+    return {
 
-        confirmar: function (mensagemAviso, funcao, id) {
+        confirmar: function (mensagemAviso, _id) {
+            debugger
             return MessageBox.confirm(mensagemAviso, {
                 actions: [MessageBox.Action.YES, MessageBox.Action.CANCEL],
                 onClose: (acao) => {
                     if (acao === MessageBox.Action.YES) {
-                        return funcao.apply(this, id)
+                        debugger
+                        return mensagemAviso.apply(this, _id);
                         
                     }
                     return
                 }
             })
         },
-        Erro: function (texto) {
-            MessageBox.error(texto);
+
+        falhou: function (mensagem) {
+           return MessageBox.error(mensagem, {
+            actions:[MessageBox.Action.OK]
+           });
         },
-        sucesso: function (texto) {
-            MessageBox.success(texto)
+        
+        sucessou: function (MensagemApagado) {
+          return MessageBox.success(MensagemApagado,{
+            actions:[MessageBox.Action.OK]
+          })
         }
-    });
+    };
 });

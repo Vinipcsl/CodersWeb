@@ -3,14 +3,13 @@ sap.ui.define([
 	"sap/ui/model/json/JSONModel",
 	"../services/Validacao",
 	"../model/Formatter",
-	"sap/m/MessageBox",
-	"../services/RepositorioCelular"
-	
+	"../services/RepositorioCelular",
+	"../services/Mensagens",
 
-], function (Controller, JSONModel, Validacao, Formatter, MessageBox, RepositorioCelular) {	
+
+], function (Controller, JSONModel, Validacao, Formatter, RepositorioCelular ,Mensagens) {	
 	"use strict";
 
-	const uri="https://localhost:59606/api/celular/";
 	const caminhoControllerCadastroDeCelular="sap.ui.demo.viniCelulares.controller.CadastroDeCelular";
 	const lista="listaDeCelulares";
 	const modeloCelular = "celulares";
@@ -77,7 +76,8 @@ sap.ui.define([
 
 		aoClicarEmSalvar: function()
 		{	
-			debugger		
+			const mensagemDeFalhaAoCadastrar = "ValidacaoDeFalha";
+
 			let marca = this.getView().byId(inputMarca)
 			let modelo = this.getView().byId(inputModelo)
 			let cor =  this.getView().byId(inputCor)
@@ -104,8 +104,9 @@ sap.ui.define([
 				}
 			}	
 			else{
-				const mensagemDeFalhaAoCadastrar = "ValidacaoDeFalha";
-				MessageBox.error(Validacao.mensagemDeErroDosCampos(mensagemDeFalhaAoCadastrar));
+				
+				Mensagens.falhou(mensagemDeFalhaAoCadastrar);
+				
 			}
 		},
 		
@@ -124,12 +125,13 @@ sap.ui.define([
 		},
 
 		_salvarCelular: async function(celular)
-		{			
+		{		
+			const sucesso = "SucessoAoCadastrar"	
 			RepositorioCelular.Adicionar(celular)
 			.then((response)=> response.json())
 			.then(novoCelular =>{				
 				this._navegar(rotaDetalhe, novoCelular.id)
-			} )
+			})
 		},
 
 		_editarCelular:function(celular)
@@ -169,5 +171,7 @@ sap.ui.define([
 				campoDefinido.setValue(valorPadrao)
 			})
 		},
+
+		
     });
 });

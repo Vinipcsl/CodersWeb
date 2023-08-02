@@ -44,18 +44,17 @@ sap.ui.define([
 
 		aoClicarEmRemover: function(){
 			const mensagemAviso = I18n.getText("MensagemAviso");
-			const mensagemApagado = I18n.getText("MensagemApagado");
 			const mensagemCancelado = I18n.getText("MensagemCancelado")
 			const celular = this.getView().getModel('celular').getData();
 			const id = celular.id;
-
-			Mensagens.confirmar(this.mensagemI18n(mensagemApagado), this._removerCelular(celular))
-						
+			
+			Mensagens.confirmar(this.mensagemI18n(mensagemAviso), this._removerCelular.bind(this), [id]);
 		},
 
 		_removerCelular: function(){
 			let celular = this.getView().getModel('celular').getData().id;
 			RepositorioCelular.Excluir(celular);
+			this._navegar();
 		},
 
 		_detalhes : function (id){

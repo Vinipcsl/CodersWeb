@@ -5,9 +5,10 @@ sap.ui.define([
 	"../model/Formatter",
 	"../services/RepositorioCelular",
 	"../services/Mensagens",
+	"sap/ui/model/resource/ResourceModel"
 
 
-], function (Controller, JSONModel, Validacao, Formatter, RepositorioCelular ,Mensagens) {	
+], function (Controller, JSONModel, Validacao, Formatter, RepositorioCelular ,Mensagens, ResourceModel) {	
 	"use strict";
 
 	const caminhoControllerCadastroDeCelular="sap.ui.demo.viniCelulares.controller.CadastroDeCelular";
@@ -67,7 +68,8 @@ sap.ui.define([
 
 		_carregarCelular: async function (idCelular)
 		{
-			let celular = await RepositorioCelular.ObterPorId(idCelular)
+			RepositorioCelular.ObterPorId(idCelular)
+			.then((response)=> response.json())
 			.then(json =>{
 				var oModel = new JSONModel(json);
 				this.getView().setModel(oModel, modeloCelular)
@@ -75,7 +77,7 @@ sap.ui.define([
 		},
 
 		aoClicarEmSalvar: function()
-		{	
+		{	  this._processarEvento(() => {
 			const mensagemDeFalhaAoCadastrar = "ValidacaoDeFalha";
 
 			let marca = this.getView().byId(inputMarca)
@@ -104,10 +106,9 @@ sap.ui.define([
 				}
 			}	
 			else{
-				
-				Mensagens.falhou(mensagemDeFalhaAoCadastrar);
-				
+				Mensagens.falhou(this.mensagemI18n(mensagemDeFalhaAoCadastrar));
 			}
+		});
 		},
 		
 		_modeloCelulares: function(modelo){
@@ -121,7 +122,9 @@ sap.ui.define([
 		},
 				
 		aoClicarEmCancelar: function () {
+			this._processarEvento(() => {
 			this._navegar(lista);
+			})
 		},
 
 		_salvarCelular: async function(celular)
@@ -149,7 +152,9 @@ sap.ui.define([
         },
     
         aoClicarEmVoltar: function () {
-            this._navegar(lista);
+            this._processarEvento(() => {
+				this._navegar(lista);
+			})
 		},
 		
 		aoInserirCor: function() {
@@ -172,6 +177,26 @@ sap.ui.define([
 			})
 		},
 
-		
+		mensagemI18n: function (texto) {
+            const i18n = new ResourceModel({
+                bundleName: "sap.ui.demo.viniCelulares.i18n.i18n",
+                bundleUrl: "../i18n/i18n.properties"
+            }).getResourceBundle();
+
+            return i18n.getText(texto);
+        },
+
+		_processarEvento: function(action){
+			const tipoDaPromise = "catch",
+					   tipoBuscado = "function";
+			try {
+					var promise = action();
+					if(promise && typeof(promise[tipoDaPromise]) == tipoBuscado){
+							promise.catch(error => MessageBox.error(error.message));
+					}
+			} catch (error) {
+					MessageBox.error(error.message);
+			}
+	}
     });
 });

@@ -8,12 +8,10 @@ sap.ui.define([
     return {
 
         confirmar: function (mensagemAviso, mensagemCancelado, functionRemover, id) {
-            debugger
             return MessageBox.confirm(mensagemAviso, {
                 actions: [MessageBox.Action.YES, MessageBox.Action.CANCEL],
                 onClose: (acao) => {
                     if (acao === MessageBox.Action.YES) {
-                        debugger
                         return functionRemover.apply(this, id);
                     }
                     
@@ -28,8 +26,8 @@ sap.ui.define([
            });
         },
         
-        sucessou: function (MensagemApagado) {
-          return MessageBox.success(MensagemApagado,{
+        aviso: function (MensagemApagado) {
+          return MessageBox.alert(MensagemApagado,{
             actions:[MessageBox.Action.OK]
           })
         }

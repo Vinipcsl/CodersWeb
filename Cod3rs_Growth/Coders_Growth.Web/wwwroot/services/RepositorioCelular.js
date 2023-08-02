@@ -35,7 +35,7 @@ sap.ui.define([
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: corpo
+                body: JSON.stringify(celular)
             })
         },
 

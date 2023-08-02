@@ -32,23 +32,29 @@ sap.ui.define([
 		},
 
 		aoClicarEmEditar: function(){
+			this._processarEvento(() => {
 			let oRouter = this.getOwnerComponent().getRouter();
 			let id = this._id
 			oRouter.navTo(rotaCadastroDeCelular, {id})
+			});
 		},
 
 		aoClicarEmVoltar: function () {			
+			this._processarEvento(() => {
 			let oRouter = this.getOwnerComponent().getRouter();
             oRouter.navTo(lista, {}, true);
+			});
 		},
 
 		aoClicarEmRemover: function(){
+			this._processarEvento(() => {
 			const mensagemAviso = I18n.getText("MensagemAviso");
 			const mensagemCancelado = I18n.getText("MensagemCancelado")
 			const celular = this.getView().getModel('celular').getData();
 			const id = celular.id;
 			
 			Mensagens.confirmar(this.mensagemI18n(mensagemAviso), this.mensagemI18n(mensagemCancelado) , this._removerCelular.bind(this), [id]);
+			})
 		},
 
 		_removerCelular: function(){
@@ -86,5 +92,18 @@ sap.ui.define([
 
             return i18n.getText(texto);
         },
+
+		_processarEvento: function(action){
+			const tipoDaPromise = "catch",
+					   tipoBuscado = "function";
+			try {
+					var promise = action();
+					if(promise && typeof(promise[tipoDaPromise]) == tipoBuscado){
+							promise.catch(error => MessageBox.error(error.message));
+					}
+			} catch (error) {
+					MessageBox.error(error.message);
+			}
+	}
 	});
 });

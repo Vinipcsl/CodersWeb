@@ -33,6 +33,7 @@ sap.ui.define([
 		},
 		 
 		aoClicarProcurarCelular : function(oEvent){
+			this._processarEvento(() => {
 			const query = "query";
 			var sQuery = oEvent.getParameter(query),
 				aFilter = [];
@@ -42,20 +43,38 @@ sap.ui.define([
 				}
 				var oTable = this.byId(celularesDaLista);
 				var oBinding = oTable.getBinding(items);
-				oBinding.filter(aFilter);			
+				oBinding.filter(aFilter);	
+			});
 		},
 
 		aoClicarNaLinha: function (evento) {
+			this._processarEvento(() => {
 			const detalhe= "detalhe";
 			let id = evento.getSource().getBindingContext(celulares).getObject().id
    
 			let oRouter = this.getOwnerComponent().getRouter()
 			oRouter.navTo(detalhe, {id})
+			})
 		},
 
 		aoClicarAdicionar: function () {
+			this._processarEvento(() => {
 			let oRouter = this.getOwnerComponent().getRouter()
 			oRouter.navTo("cadastroDeCelular")
-		}
+			})
+		},
+
+		_processarEvento: function(action){
+			const tipoDaPromise = "catch",
+					   tipoBuscado = "function";
+			try {
+					var promise = action();
+					if(promise && typeof(promise[tipoDaPromise]) == tipoBuscado){
+							promise.catch(error => MessageBox.error(error.message));
+					}
+			} catch (error) {
+					MessageBox.error(error.message);
+			}
+	}
 	});
 });

@@ -77,38 +77,39 @@ sap.ui.define([
 		},
 
 		aoClicarEmSalvar: function()
-		{	  this._processarEvento(() => {
-			const mensagemDeFalhaAoCadastrar = "ValidacaoDeFalha";
+		{	  
+			this._processarEvento(() => {
+				const mensagemDeFalhaAoCadastrar = "ValidacaoDeFalha";
 
-			let marca = this.getView().byId(inputMarca)
-			let modelo = this.getView().byId(inputModelo)
-			let cor =  this.getView().byId(inputCor)
-			let memoria = this.getView().byId(inputMemoria)
-			let anoFabricado = this.getView().byId(inputAnoFabricado)
-						
-			let objetoCamposAValidar = {
-				marca,
-				modelo,
-				cor,
-				memoria,
-				anoFabricado
-			}
-			
-			if (Validacao.ehCamposValidos(objetoCamposAValidar))
-			{
-				let celular = this._modeloCelulares().getData();
-
-				if(celular.id){
-					this._editarCelular(celular)
+				let marca = this.getView().byId(inputMarca)
+				let modelo = this.getView().byId(inputModelo)
+				let cor =  this.getView().byId(inputCor)
+				let memoria = this.getView().byId(inputMemoria)
+				let anoFabricado = this.getView().byId(inputAnoFabricado)
+							
+				let objetoCamposAValidar = {
+					marca,
+					modelo,
+					cor,
+					memoria,
+					anoFabricado
 				}
+				
+				if (Validacao.ehCamposValidos(objetoCamposAValidar))
+				{
+					let celular = this._modeloCelulares().getData();
+
+					if(celular.id){
+						this._editarCelular(celular)
+					}
+					else{
+						this._salvarCelular(celular)
+					}
+				}	
 				else{
-					this._salvarCelular(celular)
+					Mensagens.falhou(this.mensagemI18n(mensagemDeFalhaAoCadastrar));
 				}
-			}	
-			else{
-				Mensagens.falhou(this.mensagemI18n(mensagemDeFalhaAoCadastrar));
-			}
-		});
+			});
 		},
 		
 		_modeloCelulares: function(modelo){
@@ -123,7 +124,7 @@ sap.ui.define([
 				
 		aoClicarEmCancelar: function () {
 			this._processarEvento(() => {
-			this._navegar(lista);
+				this._navegar(lista);
 			})
 		},
 
@@ -187,15 +188,16 @@ sap.ui.define([
         },
 
 		_processarEvento: function(action){
-			const tipoDaPromise = "catch",
-					   tipoBuscado = "function";
+			const tipoDaPromise = "catch"
+			const tipoBuscado = "function"
+			
 			try {
-					var promise = action();
-					if(promise && typeof(promise[tipoDaPromise]) == tipoBuscado){
-							promise.catch(error => MessageBox.error(error.message));
-					}
+				var promise = action();
+				if(promise && typeof(promise[tipoDaPromise]) == tipoBuscado){
+					promise.catch(error => MessageBox.error(error.message));
+				}
 			} catch (error) {
-					MessageBox.error(error.message);
+				MessageBox.error(error.message);
 			}
 	}
     });

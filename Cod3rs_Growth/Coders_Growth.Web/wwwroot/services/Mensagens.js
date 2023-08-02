@@ -7,7 +7,7 @@ sap.ui.define([
 
     return {
 
-        confirmar: function (mensagemAviso, functionRemover, id) {
+        confirmar: function (mensagemAviso, mensagemCancelado, functionRemover, id) {
             debugger
             return MessageBox.confirm(mensagemAviso, {
                 actions: [MessageBox.Action.YES, MessageBox.Action.CANCEL],
@@ -15,9 +15,9 @@ sap.ui.define([
                     if (acao === MessageBox.Action.YES) {
                         debugger
                         return functionRemover.apply(this, id);
-                        
                     }
-                    return
+                    
+                    return MessageBox.error(mensagemCancelado);
                 }
             })
         },

@@ -48,7 +48,7 @@ sap.ui.define([
 			const celular = this.getView().getModel('celular').getData();
 			const id = celular.id;
 			
-			Mensagens.confirmar(this.mensagemI18n(mensagemAviso), this._removerCelular.bind(this), [id]);
+			Mensagens.confirmar(this.mensagemI18n(mensagemAviso), this.mensagemI18n(mensagemCancelado) , this._removerCelular.bind(this), [id]);
 		},
 
 		_removerCelular: function(){

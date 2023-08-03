@@ -14,7 +14,7 @@ sap.ui.define([
                     if (acao === MessageBox.Action.YES) {
                         return functionRemover.apply(this, idParaRemover);
                     }
-                    return MessageBox.error(mensagemCancelado);
+                    return MessageBox.alert(mensagemCancelado);
                 }
             })
         },

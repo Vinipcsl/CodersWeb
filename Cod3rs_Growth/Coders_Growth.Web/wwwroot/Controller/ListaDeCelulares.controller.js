@@ -8,7 +8,6 @@ sap.ui.define([
 ], function(Controller, JSONModel, Filter, FilterOperator, RepositorioCelular) {
 	"use strict";
 
-	const uri="https://localhost:59606/api/celular/";
 	const caminhoControllerLista = "sap.ui.demo.viniCelulares.controller.ListaDeCelulares";
 	const celulares = "celulares";
 	const celularesDaLista= "celularesDaLista";
@@ -60,9 +59,11 @@ sap.ui.define([
 		},
 
 		aoClicarAdicionar: function () {
+			const cadastroDeCelular = "cadastroDeCelular"
+			
 			this._processarEvento(() => {
 				let oRouter = this.getOwnerComponent().getRouter()
-				oRouter.navTo("cadastroDeCelular")
+				oRouter.navTo(cadastroDeCelular)
 			})
 		},
 

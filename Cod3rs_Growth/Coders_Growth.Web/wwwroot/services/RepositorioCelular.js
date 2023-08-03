@@ -17,7 +17,7 @@ sap.ui.define([], function () {
         return request(apiConfig.uri);
       },
   
-      ObterPorId: async function (id) {
+      ObterPorId:  function (id) {
         return request(`${apiConfig.uri}${id}`);
       },
   

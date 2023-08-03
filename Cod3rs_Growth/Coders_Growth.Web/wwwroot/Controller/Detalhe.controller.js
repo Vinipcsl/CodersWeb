@@ -4,9 +4,8 @@ sap.ui.define([
 	"sap/m/MessageBox",
 	"../services/Mensagens",
 	"../services/RepositorioCelular",
-	"sap/ui/model/resource/ResourceModel",
 	
-], function (Controller, JSONModel,MessageBox, Mensagens, RepositorioCelular, ResourceModel ) {	
+], function (Controller, JSONModel, Mensagens, RepositorioCelular, ) {	
 	"use strict";
 
 	const uri="https://localhost:59606/api/celular/";
@@ -14,6 +13,7 @@ sap.ui.define([
 	const lista="listaDeCelulares";
 	const rotaCadastroDeCelular = "edicaoDeCelular"
 	const modelI18n = "i18n";
+	const modelCelular = 'celular'
 
 	return Controller.extend(caminhoControllerDetalhe, {
 
@@ -54,14 +54,14 @@ sap.ui.define([
 			this._processarEvento(() => {
 				const mensagemAviso = "MensagemAviso";
 				const mensagemCancelado = "MensagemCancelado"
-				const celular = this.getView().getModel('celular').getData();
+				const celular = this.getView().getModel(modelCelular).getData();
 				const id = celular.id;
 				Mensagens.confirmar(this.I18n.getText(mensagemAviso), this.I18n.getText(mensagemCancelado) , this._removerCelular.bind(this), [id]);
 			})
 		},
 
 		_removerCelular: function(){
-			let celular = this.getView().getModel('celular').getData().id;
+			let celular = this.getView().getModel(modelCelular).getData().id;
 			RepositorioCelular.Excluir(celular);
 			this._navegar();
 		},

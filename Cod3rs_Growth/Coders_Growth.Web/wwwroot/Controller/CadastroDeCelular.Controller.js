@@ -140,7 +140,6 @@ sap.ui.define([
 
 		_salvarCelular: async function(celular)
 		{		
-			const sucesso = "SucessoAoCadastrar"	
 			RepositorioCelular.Adicionar(celular)
 			.then((response)=> response.json())
 			.then(novoCelular =>{				

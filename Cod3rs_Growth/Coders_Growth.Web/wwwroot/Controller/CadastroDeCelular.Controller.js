@@ -5,10 +5,10 @@ sap.ui.define([
 	"../model/Formatter",
 	"../services/RepositorioCelular",
 	"../services/Mensagens",
-	"sap/ui/model/resource/ResourceModel"
+	"sap/m/MessageBox",
 
 
-], function (Controller, JSONModel, Validacao, Formatter, RepositorioCelular ,Mensagens, ResourceModel) {	
+], function (Controller, JSONModel, Validacao, Formatter, RepositorioCelular ,Mensagens, MessageBox ) {	
 	"use strict";
 
 	const caminhoControllerCadastroDeCelular="sap.ui.demo.viniCelulares.controller.CadastroDeCelular";
@@ -25,12 +25,16 @@ sap.ui.define([
 	const valorPadrao = "";
 
 	return Controller.extend(caminhoControllerCadastroDeCelular, {	
+		
+		I18n: null,
 
 		onInit : function() 
 		{
-			const I18n = "i18n"
-			const oBundle = this.getOwnerComponent().getModel(I18n).getResourceBundle();
-			Validacao.setI18Nmodel(oBundle);
+			const modelI18n = "i18n"
+			this._I18n = this.getOwnerComponent().getModel(modelI18n).getResourceBundle()
+			
+			const I18n = this.getOwnerComponent().getModel(modelI18n).getResourceBundle();
+			Validacao.setI18Nmodel(I18n);
 
 			let oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute(rotaCadastroDeCelular).attachPatternMatched(this._aoCoincidirRota, this);
@@ -39,14 +43,20 @@ sap.ui.define([
 
 		_aoCoincidirRota: function()
 		{
-			this._setarModeloCelular();
+			this._processarEvento(() =>
+			{
+				this._setarModeloCelular();
+			})
 		},
 		
 		_aoCoincidirRotaEditar: function(oEvent)
 		{
-			this._modeloCelulares();
-			let id = oEvent.getParameter("arguments").id
-			this._carregarCelular(id)
+			this._processarEvento(() => 
+			{
+				this._modeloCelulares();
+				let id = oEvent.getParameter("arguments").id
+				this._carregarCelular(id)
+			})
 		},
 
 		_setarModeloCelular: function()
@@ -66,7 +76,7 @@ sap.ui.define([
 			};
 		},
 
-		_carregarCelular: async function (idCelular)
+		_carregarCelular: function (idCelular)
 		{
 			RepositorioCelular.ObterPorId(idCelular)
 			.then((response)=> response.json())
@@ -107,7 +117,7 @@ sap.ui.define([
 					}
 				}	
 				else{
-					Mensagens.falhou(this.mensagemI18n(mensagemDeFalhaAoCadastrar));
+					Mensagens.aviso(this._I18n.getText(mensagemDeFalhaAoCadastrar));
 				}
 			});
 		},
@@ -153,7 +163,8 @@ sap.ui.define([
         },
     
         aoClicarEmVoltar: function () {
-            this._processarEvento(() => {
+            this._processarEvento(() => 
+			{
 				this._navegar(lista);
 			})
 		},
@@ -178,15 +189,6 @@ sap.ui.define([
 			})
 		},
 
-		mensagemI18n: function (texto) {
-            const i18n = new ResourceModel({
-                bundleName: "sap.ui.demo.viniCelulares.i18n.i18n",
-                bundleUrl: "../i18n/i18n.properties"
-            }).getResourceBundle();
-
-            return i18n.getText(texto);
-        },
-
 		_processarEvento: function(action){
 			const tipoDaPromise = "catch"
 			const tipoBuscado = "function"
@@ -194,10 +196,10 @@ sap.ui.define([
 			try {
 				var promise = action();
 				if(promise && typeof(promise[tipoDaPromise]) == tipoBuscado){
-					promise.catch(error => MessageBox.error(error.message));
+					promise.catch(error =>  RepositorioCelular.aviso(error.message));
 				}
 			} catch (error) {
-				MessageBox.error(error.message);
+				RepositorioCelular.aviso(error.message);
 			}
 	}
     });

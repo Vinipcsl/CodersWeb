@@ -24,12 +24,14 @@ sap.ui.define([
 		 },
 		_aoCoincidirRota: function()
 		{
+			this._processarEvento(() => {
 			let tela = this.getView();
 			 RepositorioCelular.ObterTodos()
 				.then(response => response.json())
 				.then(data => {
 				  tela.setModel(new JSONModel(data),celulares);
 			   })
+			})
 		},
 		 
 		aoClicarProcurarCelular : function(oEvent){
@@ -71,10 +73,10 @@ sap.ui.define([
 			try {
 				var promise = action();
 				if(promise && typeof(promise[tipoDaPromise]) == tipoBuscado){
-					promise.catch(error => MessageBox.error(error.message));
+					promise.catch(error =>  RepositorioCelular.aviso(error.message));
 				}
 			} catch (error) {
-				MessageBox.error(error.message);
+				RepositorioCelular.aviso(error.message);
 			}
 	}
 	});

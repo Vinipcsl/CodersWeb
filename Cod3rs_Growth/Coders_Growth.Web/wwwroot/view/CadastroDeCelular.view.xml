@@ -1,0 +1,54 @@
+<mvc:View
+ controllerName="sap.ui.demo.viniCelulares.controller.CadastroDeCelular" 
+   xmlns:mvc="sap.ui.core.mvc"
+   xmlns:core="sap.ui.core"
+   xmlns="sap.m"
+   xmlns:l="sap.ui.layout"
+   xmlns:f="sap.ui.layout.form">
+
+ <Page 
+        showHeader="true" 
+        enableScrolling="true" 
+        showNavButton="true"
+        navButtonPress="aoClicarEmVoltar" 
+        title="{i18n>TituloDeCadastro}" 
+        titleAlignment="Center">
+        <headerContent>
+            <Button text="{i18n>botaoSalvar}" icon="sap-icon://add" width="auto" type="Accept" press="aoClicarEmSalvar"/>
+            <Button text="{i18n>botaoCancelar}" icon="sap-icon://decline" width="auto" type="Reject" press="aoClicarEmCancelar"/>
+        </headerContent>
+        <VBox class="sapUiSmallMargin">
+            <l:VerticalLayout class="sapUiContentPadding" width="50%">
+                <Label text="{i18n>CampoMarca}" required="true" />
+                <Input 
+                    id="marca"
+                    value="{celulares>/marca}" 
+                    placeholder="{i18n>MarcaDoCelular}"/>
+                <Label text="{i18n>CampoModelo}" required="true"/>
+                <Input
+                    id="modelo" 
+                    value="{celulares>/modelo}" 
+                    placeholder="{i18n>ModeloDoCelular}"/>
+                <Label text="{i18n>CampoCor}" required="true"/>
+                <Input
+                    id="cor" 
+                    value="{celulares>/cor}" 
+                    placeholder="{i18n>CorDoCelular}"                    
+                    liveChange="aoInserirCor"/>
+                 <Label text="{i18n>CampoMemoria}" required="true"/>
+                <Input
+                    id="memoria" 
+                    value="{celulares>/memoria}" 
+                    placeholder="{i18n>MemoriaDoCelular}"
+                    liveChange="aoInserirMemoria"/>
+                <Label text="{i18n>CampoAnoFabricacao}" required="true"/>
+                <DatePicker
+                    id="dataDeFabricacao" 
+                    value="{celulares>/anoFabricacao}" 
+                    valueFormat="yyyy-MM-ddTHH:mm:ss"
+                    displayFormat="dd/MM/yyyy"
+                    placeholder="{i18n>AnoFabricacaoDoCelular}"/>               
+            </l:VerticalLayout>
+        </VBox>
+    </Page>
+</mvc:View>

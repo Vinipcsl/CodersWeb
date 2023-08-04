@@ -16,7 +16,7 @@ namespace Coders_Growth.Infra
         public void Adicionar(Celular novoCelular)
         {
             using var conexao2db = Conexao();
-            conexao2db.Insert(novoCelular);
+            novoCelular.Id = conexao2db.InsertWithInt32Identity(novoCelular);
         }
 
         public void Atualizar(int id, Celular novoCelular)
@@ -47,7 +47,7 @@ namespace Coders_Growth.Infra
 
         public BindingList<Celular> ObterTodos()
         {
-            using var conexao2db = Conexao();           
+            using var conexao2db = Conexao();
             _listacelular = conexao2db.GetTable<Celular>().ToList();
             var bindlist = new BindingList<Celular>(_listacelular);
             return bindlist;

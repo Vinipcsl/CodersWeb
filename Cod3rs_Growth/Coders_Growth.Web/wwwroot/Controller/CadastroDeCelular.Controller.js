@@ -5,10 +5,8 @@ sap.ui.define([
 	"../model/Formatter",
 	"../services/RepositorioCelular",
 	"../services/Mensagens",
-	"sap/m/MessageBox",
 
-
-], function (Controller, JSONModel, Validacao, Formatter, RepositorioCelular ,Mensagens, MessageBox ) {	
+], function (Controller, JSONModel, Validacao, Formatter, RepositorioCelular ,Mensagens ) {	
 	"use strict";
 
 	const caminhoControllerCadastroDeCelular="sap.ui.demo.viniCelulares.controller.CadastroDeCelular";
@@ -51,10 +49,11 @@ sap.ui.define([
 		
 		_aoCoincidirRotaEditar: function(oEvent)
 		{
+			const argumentos = "arguments";
 			this._processarEvento(() => 
 			{
 				this._modeloCelulares();
-				let id = oEvent.getParameter("arguments").id
+				let id = oEvent.getParameter(argumentos).id
 				this._carregarCelular(id)
 			})
 		},
@@ -138,7 +137,7 @@ sap.ui.define([
 			})
 		},
 
-		_salvarCelular: async function(celular)
+		_salvarCelular:  function(celular)
 		{		
 			RepositorioCelular.Adicionar(celular)
 			.then((response)=> response.json())

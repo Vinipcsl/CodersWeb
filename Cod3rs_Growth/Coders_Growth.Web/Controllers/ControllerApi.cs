@@ -80,7 +80,6 @@ namespace Coders_Growth.Web.Controllers
                 {
                     throw new Exception("Este celular não existe");
                 }
-               // celular.Id = id;
                 _validarCampos.ValidarCampos(celular, _repositorio);
                 _repositorio.Atualizar(celular.Id, celular);
                 return Ok(celular);
